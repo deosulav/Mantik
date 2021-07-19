@@ -2364,13 +2364,11 @@ static void ShowDemoWindowLayout()
                 window_flags |= ImGuiWindowFlags_MenuBar;
             ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
             ImGui::BeginChild("ChildR", ImVec2(0, 260), true, window_flags);
-            if (!disable_menu && ImGui::BeginMenuBar())
-            {
-                if (ImGui::BeginMenu("Menu"))
-                {
+            if (!disable_menu && ImGui::BeginMenuBar()) {
+                if (ImGui::BeginMenu("Menu")) {
                     ShowExampleMenuFile();
                     ImGui::EndMenu();
-                }
+				}
                 ImGui::EndMenuBar();
             }
             if (ImGui::BeginTable("split", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings))
