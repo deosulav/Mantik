@@ -1,0 +1,9 @@
+.vs
+ProteusCloneSDL.sln
+ProteusCloneSDL.vcxproj
+ProteusCloneSDL.vcxproj.filters
+ProteusCloneSDL.vcxproj.user
+imgui.ini
+SDL2.dll
+glew32.dll
+x64
