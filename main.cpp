@@ -9,6 +9,7 @@
 #include <imnodes.h>
 
 #include "node_manager.h"
+#include "new_node.h"
 
 int
 main (int, char**) {
@@ -74,39 +75,45 @@ main (int, char**) {
 	node_manager node_man;
 
 	int node1, node2, node3;
-	int
-	node1pi1, node1po1,
-	node1pi2, node1po2,
-	node1pi3, node1po3,
-	node2pi1, node2po1,
-	node2pi2, node2po2,
-	node2pi3, node2po3,
-	node3pi1, node3po1,
-	node3pi2, node3po2,
-	node3pi3, node3po3;
-	node_man.add_node(node1 = unique_number++, "Node 1");
-	node_man.add_node(node2 = unique_number++, "Node 2");
-	node_man.add_node(node3 = unique_number++, "Node 3");
-	node_man.add_input_pins(node1, node1pi1 = unique_number++, "node-1 pin in-1");
-	node_man.add_input_pins(node1, node1pi2 = unique_number++, "node-1 pin in-2");
-	node_man.add_input_pins(node1, node1pi3 = unique_number++, "node-1 pin in-3");
-	node_man.add_input_pins(node2, node2pi1 = unique_number++, "node-2 pin in-1");
-	node_man.add_input_pins(node2, node2pi2 = unique_number++, "node-2 pin in-2");
-	node_man.add_input_pins(node2, node2pi3 = unique_number++, "node-2 pin in-3");
-	node_man.add_input_pins(node3, node3pi1 = unique_number++, "node-3 pin in-1");
-	node_man.add_input_pins(node3, node3pi2 = unique_number++, "node-3 pin in-2");
-	node_man.add_input_pins(node3, node3pi3 = unique_number++, "node-3 pin in-3");
-	node_man.add_output_pins(node1, node1po1 = unique_number++, "node-3 pin out-1");
-	node_man.add_output_pins(node1, node1po2 = unique_number++, "node-3 pin out-2");
-	node_man.add_output_pins(node1, node1po3 = unique_number++, "node-3 pin out-3");
-	node_man.add_output_pins(node2, node2po1 = unique_number++, "node-3 pin out-1");
-	node_man.add_output_pins(node2, node2po2 = unique_number++, "node-3 pin out-2");
-	node_man.add_output_pins(node2, node2po3 = unique_number++, "node-3 pin out-3");
-	node_man.add_output_pins(node3, node3po1 = unique_number++, "node-3 pin out-1");
-	node_man.add_output_pins(node3, node3po2 = unique_number++, "node-3 pin out-2");
-	node_man.add_output_pins(node3, node3po3 = unique_number++, "node-3 pin out-3");
+	node1 = unique_number++;
+	node_man.add_node(unique_number, "Node 1", AND_GATE);
+	node2 = unique_number++;
+	node_man.add_node(unique_number, "Node 2", AND_GATE);
+	node3 = unique_number++;
+	node_man.add_node(unique_number, "Node 3", AND_GATE);
+// 	int
+// 	node1pi1, node1po1,
+// 	node1pi2, node1po2,
+// 	node1pi3, node1po3,
+// 	node2pi1, node2po1,
+// 	node2pi2, node2po2,
+// 	node2pi3, node2po3,
+// 	node3pi1, node3po1,
+// 	node3pi2, node3po2,
+// 	node3pi3, node3po3;
+// 	node_man.add_input_pins(node1, node1pi1 = unique_number++, "node-1 pin in-1");
+// 	node_man.add_input_pins(node1, node1pi2 = unique_number++, "node-1 pin in-2");
+// 	node_man.add_input_pins(node1, node1pi3 = unique_number++, "node-1 pin in-3");
+// 	node_man.add_input_pins(node2, node2pi1 = unique_number++, "node-2 pin in-1");
+// 	node_man.add_input_pins(node2, node2pi2 = unique_number++, "node-2 pin in-2");
+// 	node_man.add_input_pins(node2, node2pi3 = unique_number++, "node-2 pin in-3");
+// 	node_man.add_input_pins(node3, node3pi1 = unique_number++, "node-3 pin in-1");
+// 	node_man.add_input_pins(node3, node3pi2 = unique_number++, "node-3 pin in-2");
+// 	node_man.add_input_pins(node3, node3pi3 = unique_number++, "node-3 pin in-3");
+// 	node_man.add_output_pins(node1, node1po1 = unique_number++, "node-3 pin out-1");
+// 	node_man.add_output_pins(node1, node1po2 = unique_number++, "node-3 pin out-2");
+// 	node_man.add_output_pins(node1, node1po3 = unique_number++, "node-3 pin out-3");
+// 	node_man.add_output_pins(node2, node2po1 = unique_number++, "node-3 pin out-1");
+// 	node_man.add_output_pins(node2, node2po2 = unique_number++, "node-3 pin out-2");
+// 	node_man.add_output_pins(node2, node2po3 = unique_number++, "node-3 pin out-3");
+// 	node_man.add_output_pins(node3, node3po1 = unique_number++, "node-3 pin out-1");
+// 	node_man.add_output_pins(node3, node3po2 = unique_number++, "node-3 pin out-2");
+// 	node_man.add_output_pins(node3, node3po3 = unique_number++, "node-3 pin out-3");
 
+	node_adder isAdding = {false, NOT_ADDING};
 	while (!done) {
+
+
 		SDL_Event event;
 		while (SDL_PollEvent (&event)) {
 			ImGui_ImplSDL2_ProcessEvent (&event);
@@ -115,6 +122,13 @@ main (int, char**) {
 			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE &&
 				event.window.windowID == SDL_GetWindowID (window))
 				done = true;
+			if (isAdding.isAdding && event.type == SDL_MOUSEBUTTONDOWN) {
+				unique_number++;
+				ImNodes::SetNodeScreenSpacePos(unique_number, ImGui::GetMousePos());
+				node_man.add_node(unique_number, "Add Node", isAdding.new_node_typ);
+
+				isAdding = {false, NOT_ADDING};
+			}
 		}
 
 		// Start the Dear ImGui frame
@@ -143,6 +157,7 @@ main (int, char**) {
 		ImNodes::EditorContextSet (e1);
 		ImNodes::BeginNodeEditor( );
 
+
 		node_man.render();
 
 		ImNodes::MiniMap();
@@ -151,7 +166,8 @@ main (int, char**) {
 		int link_id = -1, start_node_id = -1, start_pin_id = -1, end_node_id = -1, end_pin_id = -1;
 		bool created_from_snap;
 		if (ImNodes::IsLinkCreated(&start_node_id, &start_pin_id, &end_node_id, &end_pin_id, &created_from_snap)) {
-			node_man.add_link(unique_number++, start_node_id, start_pin_id, end_node_id, end_pin_id);
+			unique_number++;
+			node_man.add_link(unique_number, start_node_id, start_pin_id, end_node_id, end_pin_id);
 		}
 		if (ImNodes::IsLinkDestroyed(&link_id)) {
 			node_man.remove_link(link_id);
@@ -160,7 +176,7 @@ main (int, char**) {
 		ImGui::End( );
 
 		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h;
+		window_size.y = ( float )s_h * 0.60f;
 		ImGui::SetNextWindowSize (window_size);
 		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, 0});
 
@@ -168,6 +184,39 @@ main (int, char**) {
 		ImGui::Begin("Node Properties", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
 		ImGui::TextUnformatted("Node Properties!");
 		ImGui::End();
+
+
+		window_size.x = ( float )s_w * 0.25f;
+		window_size.y = ( float )s_h * 0.40f;
+		ImGui::SetNextWindowSize (window_size);
+		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, ( float )s_h * 0.60f});
+
+		ImGui::Begin("Experimental", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
+		ImGui::TextUnformatted("Add Nodes!");
+
+
+		ImGui::NewLine();
+
+		if (ImGui::Button("And Gate"))
+			isAdding = {true, AND_GATE};
+		if (ImGui::Button("Or Gate"))
+			isAdding = {true, AND_GATE};
+		if (ImGui::Button("Not Gate"))
+			isAdding = {true, AND_GATE};
+
+		ImGui::End();
+
+		if(isAdding.isAdding){
+			window_size.x = ( float )s_w * 0.75f;
+			window_size.y = ( float )s_h;
+			ImGui::SetNextWindowSize (window_size);
+			ImGui::SetNextWindowPos ({0, 0});
+			ImGui::SetNextWindowBgAlpha(0.40);
+
+			ImGui::Begin("Adding Node", &isOpen, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
+			ImGui::End();
+		}
+
 
 		ImGui::ShowDemoWindow( );
 
