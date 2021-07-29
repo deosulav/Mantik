@@ -200,9 +200,9 @@ main (int, char**) {
 		if (ImGui::Button("And Gate"))
 			isAdding = {true, AND_GATE};
 		if (ImGui::Button("Or Gate"))
-			isAdding = {true, AND_GATE};
+			isAdding = {true, OR_GATE};
 		if (ImGui::Button("Not Gate"))
-			isAdding = {true, AND_GATE};
+			isAdding = {true, NOT_GATE};
 
 		ImGui::End();
 
