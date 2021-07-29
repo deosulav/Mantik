@@ -8,12 +8,15 @@
 struct in_pin {
 	int pin_id;
 	std::string pin_name;
+	int			value;
+	int			counter = 0;
 };
 
 struct out_pin {
 	int pin_id;
 	std::string pin_name;
 	int value;
+	std::vector<in_pin*> connected_inputs;
 };
 
 class node {
@@ -21,7 +24,7 @@ class node {
 	const std::string node_name;
 	std::vector<in_pin> input_pins;
 	std::vector<out_pin> output_pins;
-	std::vector<node*> m_inputs;
+	std::vector<node*> m_inputs; //subject to removal
 
 	virtual int calculate() = 0;
 	friend class node_manager;

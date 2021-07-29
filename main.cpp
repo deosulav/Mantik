@@ -196,7 +196,8 @@ main (int, char**) {
 
 
 		ImGui::NewLine();
-
+		if (ImGui::Button ("Input"))
+			isAdding = {true, INPUT};
 		if (ImGui::Button("And Gate"))
 			isAdding = {true, AND_GATE};
 		if (ImGui::Button("Or Gate"))
@@ -211,7 +212,7 @@ main (int, char**) {
 			window_size.y = ( float )s_h;
 			ImGui::SetNextWindowSize (window_size);
 			ImGui::SetNextWindowPos ({0, 0});
-			ImGui::SetNextWindowBgAlpha(0.40);
+			ImGui::SetNextWindowBgAlpha(0.40f);
 
 			ImGui::Begin("Adding Node", &isOpen, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
 			ImGui::End();
@@ -220,6 +221,7 @@ main (int, char**) {
 
 		ImGui::ShowDemoWindow( );
 
+		node_man.copyover ( );
 		// Rendering
 		ImGui::Render( );
 

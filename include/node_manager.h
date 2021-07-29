@@ -21,10 +21,10 @@ public:
 	add_node (int& node_id, std::string name, node_types n_typ);
 
 	int
-	add_input_pins (int& node_id, int pin_id, std::string pin_name);
+	add_input_pins (int& node_id, int pin_id, std::string pin_name, int value);
 
 	int
-	add_output_pins (int& node_id, int pin_id, std::string pin_name);
+	add_output_pins (int& node_id, int pin_id, std::string pin_name, int value);
 
 	int
 	add_link (int& m_id,
@@ -39,6 +39,8 @@ public:
 
 	int
 	render ( );
+	int
+	copyover ( );
 };
 
 #endif // NODE_MANAGER_H_

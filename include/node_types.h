@@ -3,7 +3,8 @@
 
 enum node_types {
 	NOT_ADDING = 0,
-	AND_GATE = 1,
+	INPUT=1,
+	AND_GATE,
 	OR_GATE,
 	NOT_GATE,
 
