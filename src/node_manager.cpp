@@ -1,17 +1,18 @@
 #include "node_manager.h"
-
+#include<typeinfo>
+#include<iostream>
 int
 node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
     int temp = 0;
 	switch (n_typ) {
 	case INPUT:
 		temp = node_id;
-		nodes.push_back (new and_gate{temp, name});
+		nodes.push_back (new and_gate{temp, "Input"});
 		add_output_pins (temp, ++node_id, "I", 0);
 		break;
     case AND_GATE:
 		temp = node_id;
-        nodes.push_back(new and_gate{temp, name});
+		nodes.push_back (new and_gate{temp, "AND Gate"});
 		add_input_pins(temp, ++node_id, "A",-1);
 		add_input_pins(temp, ++node_id, "B",-1);
 		add_output_pins(temp, ++node_id, "A.B",-1);
@@ -191,6 +192,16 @@ node_manager::copyover ( ) {
 			for (int i = 0; i < opin.connected_inputs.size ( ); i++) { // pretty basic
 				opin.connected_inputs[i]->value = opin.value;
 			}
+		}
+	}
+	return 0;
+}
+
+int
+node_manager::calculate ( ) {
+	for (node* n : nodes) {
+		if (n->node_name != "Input") { //input ko calculation block bolauda vertex out of bound jaanxa tesaile, not quite sure why
+			n->calculate ( );
 		}
 	}
 	return 0;

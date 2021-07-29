@@ -22,6 +22,7 @@ struct out_pin {
 class node {
 	const int m_unique_id;
 	const std::string node_name;
+protected:
 	std::vector<in_pin> input_pins;
 	std::vector<out_pin> output_pins;
 	std::vector<node*> m_inputs; //subject to removal
@@ -29,7 +30,6 @@ class node {
 	virtual int calculate() = 0;
 	friend class node_manager;
 
-protected:
 	node(int id, std::string name) : m_unique_id(id), node_name(name) {}
 };
 

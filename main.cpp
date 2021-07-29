@@ -74,42 +74,6 @@ main (int, char**) {
 	int unique_number = 0;
 	node_manager node_man;
 
-	int node1, node2, node3;
-	node1 = unique_number++;
-	node_man.add_node(unique_number, "Node 1", AND_GATE);
-	node2 = unique_number++;
-	node_man.add_node(unique_number, "Node 2", AND_GATE);
-	node3 = unique_number++;
-	node_man.add_node(unique_number, "Node 3", AND_GATE);
-// 	int
-// 	node1pi1, node1po1,
-// 	node1pi2, node1po2,
-// 	node1pi3, node1po3,
-// 	node2pi1, node2po1,
-// 	node2pi2, node2po2,
-// 	node2pi3, node2po3,
-// 	node3pi1, node3po1,
-// 	node3pi2, node3po2,
-// 	node3pi3, node3po3;
-// 	node_man.add_input_pins(node1, node1pi1 = unique_number++, "node-1 pin in-1");
-// 	node_man.add_input_pins(node1, node1pi2 = unique_number++, "node-1 pin in-2");
-// 	node_man.add_input_pins(node1, node1pi3 = unique_number++, "node-1 pin in-3");
-// 	node_man.add_input_pins(node2, node2pi1 = unique_number++, "node-2 pin in-1");
-// 	node_man.add_input_pins(node2, node2pi2 = unique_number++, "node-2 pin in-2");
-// 	node_man.add_input_pins(node2, node2pi3 = unique_number++, "node-2 pin in-3");
-// 	node_man.add_input_pins(node3, node3pi1 = unique_number++, "node-3 pin in-1");
-// 	node_man.add_input_pins(node3, node3pi2 = unique_number++, "node-3 pin in-2");
-// 	node_man.add_input_pins(node3, node3pi3 = unique_number++, "node-3 pin in-3");
-// 	node_man.add_output_pins(node1, node1po1 = unique_number++, "node-3 pin out-1");
-// 	node_man.add_output_pins(node1, node1po2 = unique_number++, "node-3 pin out-2");
-// 	node_man.add_output_pins(node1, node1po3 = unique_number++, "node-3 pin out-3");
-// 	node_man.add_output_pins(node2, node2po1 = unique_number++, "node-3 pin out-1");
-// 	node_man.add_output_pins(node2, node2po2 = unique_number++, "node-3 pin out-2");
-// 	node_man.add_output_pins(node2, node2po3 = unique_number++, "node-3 pin out-3");
-// 	node_man.add_output_pins(node3, node3po1 = unique_number++, "node-3 pin out-1");
-// 	node_man.add_output_pins(node3, node3po2 = unique_number++, "node-3 pin out-2");
-// 	node_man.add_output_pins(node3, node3po3 = unique_number++, "node-3 pin out-3");
-
 	node_adder isAdding = {false, NOT_ADDING};
 	while (!done) {
 
@@ -222,6 +186,7 @@ main (int, char**) {
 		ImGui::ShowDemoWindow( );
 
 		node_man.copyover ( );
+		node_man.calculate ( );
 		// Rendering
 		ImGui::Render( );
 

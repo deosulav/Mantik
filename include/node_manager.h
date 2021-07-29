@@ -41,6 +41,8 @@ public:
 	render ( );
 	int
 	copyover ( );
+	int
+	calculate ( );
 };
 
 #endif // NODE_MANAGER_H_
