@@ -5,10 +5,11 @@ int
 node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
     int temp = 0;
 	switch (n_typ) {
-	case INPUT:
+	case INPUT_1: case INPUT_2: case INPUT_3: case INPUT_4: case INPUT_5: case INPUT_6: case INPUT_7: case INPUT_8 :
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "Input"});
-		add_output_pins (temp, ++node_id, "I", 0);
+		for ( int iter=1;iter<=n_typ;iter++)
+			add_output_pins (temp, ++node_id, "I", 0);
 		break;
     case AND_GATE:
 		temp = node_id;

@@ -69,6 +69,7 @@ main (int, char**) {
 	ImNodesEditorContext* e1 = ImNodes::EditorContextCreate( );
 
 	bool done = false;
+	int c	  = 0;
 	int	 s_w, s_h;
 
 	int unique_number = 0;
@@ -86,11 +87,13 @@ main (int, char**) {
 			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE &&
 				event.window.windowID == SDL_GetWindowID (window))
 				done = true;
-			if (isAdding.isAdding && event.type == SDL_MOUSEBUTTONDOWN) {
+			if (isAdding.isAdding && event.type == SDL_MOUSEBUTTONDOWN && isAdding.new_node_typ>GENERICS ) {
+				c = isAdding.new_node_typ;
+			}
+			else if (isAdding.isAdding && event.type == SDL_MOUSEBUTTONDOWN) {
 				unique_number++;
 				ImNodes::SetNodeScreenSpacePos(unique_number, ImGui::GetMousePos());
 				node_man.add_node(unique_number, "Add Node", isAdding.new_node_typ);
-
 				isAdding = {false, NOT_ADDING};
 			}
 		}
@@ -140,7 +143,7 @@ main (int, char**) {
 		ImGui::End( );
 
 		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h * 0.60f;
+		window_size.y = ( float )s_h * 0.40f;
 		ImGui::SetNextWindowSize (window_size);
 		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, 0});
 
@@ -151,9 +154,9 @@ main (int, char**) {
 
 
 		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h * 0.40f;
+		window_size.y = ( float )s_h * 0.60f;
 		ImGui::SetNextWindowSize (window_size);
-		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, ( float )s_h * 0.60f});
+		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, ( float )s_h * 0.40f});
 
 		ImGui::Begin("Experimental", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
 		ImGui::TextUnformatted("Add Nodes!");
@@ -162,6 +165,24 @@ main (int, char**) {
 		ImGui::NewLine();
 		if (ImGui::Button ("Input"))
 			isAdding = {true, INPUT};
+		if (c == INPUT) {
+			if (ImGui::Button ("  1  "))
+				isAdding = {true, INPUT_1}, c = false;
+			if (ImGui::Button ("  2  "))
+				isAdding = {true, INPUT_2}, c = false;
+			if (ImGui::Button ("  3  "))
+				isAdding = {true, INPUT_3}, c = false;
+			if (ImGui::Button ("  4  "))
+				isAdding = {true, INPUT_4}, c = false;
+			if (ImGui::Button ("  5  "))
+				isAdding = {true, INPUT_5}, c = false;
+			if (ImGui::Button ("  6  "))
+				isAdding = {true, INPUT_6}, c = false;
+			if (ImGui::Button ("  7  "))
+				isAdding = {true, INPUT_7}, c = false;
+			if (ImGui::Button ("  8  "))
+				isAdding = {true, INPUT_8}, c = false;
+		}
 		if (ImGui::Button("And Gate"))
 			isAdding = {true, AND_GATE};
 		if (ImGui::Button("Or Gate"))
@@ -169,8 +190,25 @@ main (int, char**) {
 		if (ImGui::Button("Not Gate"))
 			isAdding = {true, NOT_GATE};
 		if (ImGui::Button ("Multiplexer"))
-			//if (ImGui::Button ("8:1"))
-				isAdding = {true, MULTIPLEXER8_1};
+			isAdding = {true, MULTIPLEXER};
+		if (c==MULTIPLEXER) {
+			if (ImGui::Button ("8:1"))
+				isAdding = {true, MULTIPLEXER8_1},c = false;
+			if (ImGui::Button ("4:1"))
+				isAdding = {true, MULTIPLEXER4_1}, c = false;
+			if (ImGui::Button ("2:1"))
+				isAdding = {true, MULTIPLEXER2_1}, c = false;
+		}
+		if (ImGui::Button ("DeMultiplexer"))
+			isAdding = {true, DEMULTIPLEXER};
+		if (c == DEMULTIPLEXER) {
+			if (ImGui::Button ("8:1"))
+				isAdding = {true, DEMULTIPLEXER1_8}, c = false;
+			if (ImGui::Button ("4:1"))
+				isAdding = {true, DEMULTIPLEXER1_4}, c = false;
+			if (ImGui::Button ("2:1"))
+				isAdding = {true, DEMULTIPLEXER1_2}, c = false;
+		}
 		ImGui::End();
 
 		if(isAdding.isAdding){
@@ -185,7 +223,7 @@ main (int, char**) {
 		}
 
 
-		ImGui::ShowDemoWindow( );
+		//ImGui::ShowDemoWindow( );
 
 		node_man.copyover ( );
 		node_man.calculate ( );
