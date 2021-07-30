@@ -168,7 +168,9 @@ main (int, char**) {
 			isAdding = {true, OR_GATE};
 		if (ImGui::Button("Not Gate"))
 			isAdding = {true, NOT_GATE};
-
+		if (ImGui::Button ("Multiplexer"))
+			//if (ImGui::Button ("8:1"))
+				isAdding = {true, MULTIPLEXER8_1};
 		ImGui::End();
 
 		if(isAdding.isAdding){

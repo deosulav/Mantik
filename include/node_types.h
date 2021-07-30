@@ -7,6 +7,7 @@ enum node_types {
 	AND_GATE,
 	OR_GATE,
 	NOT_GATE,
+	MULTIPLEXER8_1,
 
 
 	MAX_GATE_TYPES // useful for for loops

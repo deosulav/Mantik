@@ -18,9 +18,34 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		add_output_pins(temp, ++node_id, "A.B",-1);
         break;
     case OR_GATE:
+		temp = node_id;
+		nodes.push_back (new or_gate{temp, "OR Gate"});
+		add_input_pins (temp, ++node_id, "A", -1);
+		add_input_pins (temp, ++node_id, "B", -1);
+		add_output_pins (temp, ++node_id, "A+B", -1);
         break;
     case NOT_GATE:
+		temp = node_id;
+		nodes.push_back (new not_gate{temp, "NOT Gate"});
+		add_input_pins (temp, ++node_id, "A", -1);
+		add_output_pins (temp, ++node_id, "A'", -1);
         break;
+	case MULTIPLEXER8_1:
+		temp = node_id;
+		nodes.push_back (new multiplexer8_1{temp, "Multiplexer 8_1"});
+		add_input_pins (temp, ++node_id, "D0", -1);
+		add_input_pins (temp, ++node_id, "D1", -1);
+		add_input_pins (temp, ++node_id, "D2", -1);
+		add_input_pins (temp, ++node_id, "D3", -1);
+		add_input_pins (temp, ++node_id, "D4", -1);
+		add_input_pins (temp, ++node_id, "D5", -1);
+		add_input_pins (temp, ++node_id, "D6", -1);
+		add_input_pins (temp, ++node_id, "D7", -1);
+		add_input_pins (temp, ++node_id, "S0", -1);
+		add_input_pins (temp, ++node_id, "S1", -1);
+		add_input_pins (temp, ++node_id, "S2", -1);
+		add_output_pins (temp, ++node_id, "Y", -1);
+		break;
     default:
         assert(0);
         break;
