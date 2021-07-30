@@ -174,7 +174,7 @@ node_manager::render ( ) {
 			if (pin.value == -1)
 				color = {0.36f, 0.36f, 0.36f, 1.0f};
 			ImNodes::BeginInputAttribute (pin.pin_id);
-			ImGui::ColorButton ("", color, ImGuiColorEditFlags_NoTooltip, {15, 15});
+			ImGui::ColorButton ("1", color, ImGuiColorEditFlags_NoTooltip, {15, 15});
 			ImGui::SameLine ( );
 			ImGui::Text ("%s", pin.pin_name.c_str ( ));
 			ImNodes::EndInputAttribute ( );

@@ -142,21 +142,12 @@ main (int, char**) {
 
 		ImGui::End( );
 
+		bool isOpen;
+
 		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h * 0.40f;
+		window_size.y = ( float )s_h;
 		ImGui::SetNextWindowSize (window_size);
 		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, 0});
-
-		bool isOpen;
-		ImGui::Begin("Node Properties", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
-		ImGui::TextUnformatted("Node Properties!");
-		ImGui::End();
-
-
-		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h * 0.60f;
-		ImGui::SetNextWindowSize (window_size);
-		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, ( float )s_h * 0.40f});
 
 		ImGui::Begin("Experimental", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
 		ImGui::TextUnformatted("Add Nodes!");
