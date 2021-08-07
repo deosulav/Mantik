@@ -1,6 +1,9 @@
 #include "node_manager.h"
 #include<typeinfo>
 #include<iostream>
+
+std::string tempo;
+
 int
 node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
     int temp = 0;
@@ -8,22 +11,23 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 	case INPUT_1: case INPUT_2: case INPUT_3: case INPUT_4: case INPUT_5: case INPUT_6: case INPUT_7: case INPUT_8 :
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "Input"});
-		for ( int iter=1;iter<=n_typ;iter++)
+		for ( int iter=0;iter<=(n_typ-INPUT_1);iter++)
 			add_output_pins (temp, ++node_id, "I", 0);
 		break;
-    case AND_GATE:
+	case AND_GATE_2: case AND_GATE_3: case AND_GATE_4: case AND_GATE_5: case AND_GATE_6: case AND_GATE_7:case AND_GATE_8: 
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "AND Gate"});
-		add_input_pins(temp, ++node_id, "A",-1);
-		add_input_pins(temp, ++node_id, "B",-1);
-		add_output_pins(temp, ++node_id, "A.B",-1);
+		for (int iter = 0; iter <= (n_typ-AND_GATE_2+1); iter++)
+			add_input_pins (temp, ++node_id, "I", -1);
+		add_output_pins(temp, ++node_id, "O",-1);
         break;
-    case OR_GATE:
+	case OR_GATE_2: case OR_GATE_3: case OR_GATE_4: case OR_GATE_5: case OR_GATE_6: case OR_GATE_7: case OR_GATE_8:
 		temp = node_id;
 		nodes.push_back (new or_gate{temp, "OR Gate"});
-		add_input_pins (temp, ++node_id, "A", -1);
-		add_input_pins (temp, ++node_id, "B", -1);
-		add_output_pins (temp, ++node_id, "A+B", -1);
+		for (int iter = 0; iter <= (n_typ - OR_GATE_2 + 1); iter++) {
+			add_input_pins (temp, ++node_id, "I", -1);
+		}
+		add_output_pins (temp, ++node_id, "O", -1);
         break;
     case NOT_GATE:
 		temp = node_id;
@@ -31,20 +35,31 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		add_input_pins (temp, ++node_id, "A", -1);
 		add_output_pins (temp, ++node_id, "A'", -1);
         break;
-	case MULTIPLEXER8_1:
+	case MULTIPLEXER8_1: case MULTIPLEXER4_1: case MULTIPLEXER2_1:
 		temp = node_id;
-		nodes.push_back (new multiplexer8_1{temp, "Multiplexer 8_1"});
-		add_input_pins (temp, ++node_id, "D0", -1);
-		add_input_pins (temp, ++node_id, "D1", -1);
-		add_input_pins (temp, ++node_id, "D2", -1);
-		add_input_pins (temp, ++node_id, "D3", -1);
-		add_input_pins (temp, ++node_id, "D4", -1);
-		add_input_pins (temp, ++node_id, "D5", -1);
-		add_input_pins (temp, ++node_id, "D6", -1);
-		add_input_pins (temp, ++node_id, "D7", -1);
-		add_input_pins (temp, ++node_id, "S0", -1);
-		add_input_pins (temp, ++node_id, "S1", -1);
-		add_input_pins (temp, ++node_id, "S2", -1);
+		int inputno;
+		int selectorno;
+		switch (n_typ) {
+		case MULTIPLEXER8_1:
+			nodes.push_back (new multiplexer8_1{temp, "Multiplexer 8_1"});
+			inputno = 8, selectorno = 3;
+			break;
+		case MULTIPLEXER4_1:
+			//nodes.push_back (new multiplexer{temp, "Multiplexer 4_1"});
+			inputno = 4, selectorno = 2;
+			break;
+		case MULTIPLEXER2_1:
+			//nodes.push_back (new multiplexer{temp, "Multiplexer 2_1"});
+			inputno = 2, selectorno = 1;
+			break;
+		default:
+			assert (0);
+			break;
+		}
+		for ( int iter=0;iter<inputno;iter++)
+			add_input_pins (temp, ++node_id, "D", -1);
+		for (int iter = 0; iter < selectorno; iter++)
+			add_input_pins (temp, ++node_id, "S", -1);
 		add_output_pins (temp, ++node_id, "Y", -1);
 		break;
     default:
@@ -180,7 +195,7 @@ node_manager::render ( ) {
 			ImNodes::EndInputAttribute ( );
 			flag = true;
 		}
-		ImGui::NewLine ( );
+		if (flag==true) ImGui::NewLine ( );
 		for (out_pin& pin : n->output_pins) {
 			if (pin.value == 0)
 				color = {0.5f, 1.0f, 0.25f, 1.0f};

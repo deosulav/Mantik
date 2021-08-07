@@ -174,10 +174,44 @@ main (int, char**) {
 			if (ImGui::Button ("  8  "))
 				isAdding = {true, INPUT_8}, c = false;
 		}
+
 		if (ImGui::Button("And Gate"))
 			isAdding = {true, AND_GATE};
+		if (c == AND_GATE) {
+			if (ImGui::Button ("  2 input  "))
+				isAdding = {true, AND_GATE_2}, c = false;
+			if (ImGui::Button ("  3 input  "))
+				isAdding = {true, AND_GATE_3}, c = false;
+			if (ImGui::Button ("  4 input  "))
+				isAdding = {true, AND_GATE_4}, c = false;
+			if (ImGui::Button ("  5 input  "))
+				isAdding = {true, AND_GATE_5}, c = false;
+			if (ImGui::Button ("  6 input  "))
+				isAdding = {true, AND_GATE_6}, c = false;
+			if (ImGui::Button ("  7 input  "))
+				isAdding = {true, AND_GATE_7}, c = false;
+			if (ImGui::Button ("  8 input  "))
+				isAdding = {true, AND_GATE_8}, c = false;
+		}
 		if (ImGui::Button("Or Gate"))
 			isAdding = {true, OR_GATE};
+		if (c == OR_GATE) {
+			if (ImGui::Button ("  2 input  "))
+				isAdding = {true, OR_GATE_2}, c = false;
+			if (ImGui::Button ("  3 input  "))
+				isAdding = {true, OR_GATE_3}, c = false;
+			if (ImGui::Button ("  4 input  "))
+				isAdding = {true, OR_GATE_4}, c = false;
+			if (ImGui::Button ("  5 input  "))
+				isAdding = {true, OR_GATE_5}, c = false;
+			if (ImGui::Button ("  6 input  "))
+				isAdding = {true, OR_GATE_6}, c = false;
+			if (ImGui::Button ("  7 input  "))
+				isAdding = {true, OR_GATE_7}, c = false;
+			if (ImGui::Button ("  8 input  "))
+				isAdding = {true, OR_GATE_8}, c = false;
+		}
+
 		if (ImGui::Button("Not Gate"))
 			isAdding = {true, NOT_GATE};
 		if (ImGui::Button ("Multiplexer"))

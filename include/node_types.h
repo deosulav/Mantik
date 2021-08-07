@@ -13,8 +13,22 @@ enum node_types
 	INPUT_7,
 	INPUT_8,
 
-	AND_GATE,
-	OR_GATE,
+	AND_GATE_2,
+	AND_GATE_3,
+	AND_GATE_4,
+	AND_GATE_5,
+	AND_GATE_6,
+	AND_GATE_7,
+	AND_GATE_8,
+
+	OR_GATE_2,
+	OR_GATE_3,
+	OR_GATE_4,
+	OR_GATE_5,
+	OR_GATE_6,
+	OR_GATE_7,
+	OR_GATE_8,
+	
 	NOT_GATE,
 
 	MULTIPLEXER8_1,
@@ -27,6 +41,8 @@ enum node_types
 
 	GENERICS,
 	INPUT,
+	AND_GATE,
+	OR_GATE,
 	MULTIPLEXER,
 	DEMULTIPLEXER,
 	MAX_GATE_TYPES // useful for for loops
