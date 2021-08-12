@@ -62,6 +62,32 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			add_input_pins (temp, ++node_id, "S", -1);
 		add_output_pins (temp, ++node_id, "Y", -1);
 		break;
+	case DEMULTIPLEXER1_8: case DEMULTIPLEXER1_4: case DEMULTIPLEXER1_2:
+		temp = node_id;
+		int outputno;
+		switch (n_typ) {
+		case DEMULTIPLEXER1_8:
+			nodes.push_back (new demultiplexer{temp, "DeMultiplexer 1_8"});
+			outputno = 8, selectorno = 3;
+			break;
+		case DEMULTIPLEXER1_4:
+			nodes.push_back (new demultiplexer{temp, "DeMultiplexer 1_4"});
+			outputno = 4, selectorno = 2;
+			break;
+		case DEMULTIPLEXER1_2:
+			nodes.push_back (new demultiplexer{temp, "DeMultiplexer 1_2"});
+			outputno = 2, selectorno = 1;
+			break;
+		default:
+			assert (0);
+			break;
+		}
+		add_input_pins (temp, ++node_id, "D", -1);
+		for (int iter = 0; iter < selectorno; iter++)
+			add_input_pins (temp, ++node_id, "S", -1);
+		for (int iter = 0; iter < outputno; iter++)
+			add_output_pins (temp, ++node_id, "Y", -1);
+		break;
     default:
         assert(0);
         break;
@@ -206,12 +232,10 @@ node_manager::render ( ) {
 			ImNodes::BeginOutputAttribute (pin.pin_id);
 			if (flag == false) {						  // if input pin doesn't exist i.e for input node
 				if (ImGui::Button ("", {15, 15})) {		  // create a button and check if its pressed
-					pin.value = ( int )!bool (pin.value); // flip 0 and 1 //could use review as I'm unsure how safe it
-														  // is
+					pin.value = ( int )!bool (pin.value); // flip 0 and 1 //could use review as I'm unsure how safe it is
 				}
+				ImGui::SameLine ( );
 			}
-			ImGui::SameLine ( );
-			flag = false; // formality sake
 			ImGui::Indent ( );
 			ImGui::Text ("%s", pin.pin_name.c_str ( ));
 			ImGui::SameLine ( );
@@ -219,6 +243,7 @@ node_manager::render ( ) {
 			ImNodes::EndOutputAttribute ( );
 		}
 		ImNodes::EndNode ( );
+			flag = false; // formality sake
 	}
 	for (link& l : links) {
 		ImNodes::Link (l.m_unique_id, l.start_pin, l.end_pin);

@@ -110,7 +110,7 @@ class multiplexer : public node {
 	calculate ( ) {
 		bool temp		  = false;
 		bool checkinvalid = false;
-		for (in_pin ipin : this->input_pins) {
+		for (in_pin& ipin : this->input_pins) {
 			if (ipin.value == -1) {
 				checkinvalid = true;
 				break;
@@ -120,13 +120,55 @@ class multiplexer : public node {
 			this->output_pins[0].value = -1;
 		} else {
 			if (this->input_pins.size ( ) == 11) {
-				this->output_pins[0].value=this->input_pins[mapvalues (this->input_pins[8].value, this->input_pins[9].value, this->input_pins[10].value )].value;
+				this->output_pins[0].value=
+					this->input_pins[mapvalues (this->input_pins[8].value, this->input_pins[9].value, this->input_pins[10].value )].value;
 			}
 			if (this->input_pins.size ( ) == 6) {
-				this->output_pins[0].value=this->input_pins[mapvalues (this->input_pins[4].value, this->input_pins[5].value, 0)].value;
+				this->output_pins[0].value=
+					this->input_pins[mapvalues (this->input_pins[4].value, this->input_pins[5].value, 0)].value;
 			}
 			if (this->input_pins.size ( ) == 3) {
-				this->output_pins[0].value=this->input_pins[mapvalues (this->input_pins[2].value, 0, 0)].value;
+				this->output_pins[0].value=
+					this->input_pins[mapvalues (this->input_pins[2].value, 0, 0)].value;
+			}
+		}
+		return 0;
+	}
+};
+class demultiplexer : public node {
+  public:
+	demultiplexer (int id, std::string name)
+		: node (id, name) {}
+
+	int
+	calculate ( ) {
+		bool temp		  = false;
+		bool checkinvalid = false;
+		for (in_pin& ipin : this->input_pins) {
+			if (ipin.value == -1) {
+				checkinvalid = true;
+				break;
+			}
+		}
+		if (checkinvalid) {
+			for (out_pin& opin : this->output_pins) {
+				opin.value = -1;
+			}
+		} else {
+			for (out_pin& opin : this->output_pins) {
+				opin.value = 0;
+			}
+			if (this->input_pins.size ( ) == 4) {
+				this->output_pins[mapvalues(this->input_pins[1].value, this->input_pins[2].value, this->input_pins[3].value)].value =
+					this->input_pins[0].value;
+			}
+			if (this->input_pins.size ( ) == 3) {
+				this->output_pins[mapvalues (this->input_pins[1].value, this->input_pins[2].value, 0)].value =
+					this->input_pins[0].value;
+			}
+			if (this->input_pins.size ( ) == 2) {
+				this->output_pins[mapvalues (this->input_pins[1].value, 0 , 0)].value =
+					this->input_pins[0].value;
 			}
 		}
 		return 0;
