@@ -31,6 +31,10 @@ enum node_types
 	
 	NOT_GATE,
 
+	DECODER3_8,
+	DECODER2_4,
+	DECODER1_2,
+
 	MULTIPLEXER8_1,
 	MULTIPLEXER4_1,
 	MULTIPLEXER2_1,
@@ -43,6 +47,7 @@ enum node_types
 	INPUT,
 	AND_GATE,
 	OR_GATE,
+	DECODER,
 	MULTIPLEXER,
 	DEMULTIPLEXER,
 	MAX_GATE_TYPES // useful for for loops

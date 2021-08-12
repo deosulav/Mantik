@@ -7,35 +7,34 @@ std::string tempo;
 int
 node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
     int temp = 0;
-	switch (n_typ) {
-	case INPUT_1: case INPUT_2: case INPUT_3: case INPUT_4: case INPUT_5: case INPUT_6: case INPUT_7: case INPUT_8 :
+	if (n_typ>=INPUT_1 && n_typ<=INPUT_8){
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "Input"});
 		for ( int iter=0;iter<=(n_typ-INPUT_1);iter++)
 			add_output_pins (temp, ++node_id, "I", 0);
-		break;
-	case AND_GATE_2: case AND_GATE_3: case AND_GATE_4: case AND_GATE_5: case AND_GATE_6: case AND_GATE_7:case AND_GATE_8: 
+	}
+	else if (n_typ >= AND_GATE_2 && n_typ <= AND_GATE_8) {
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "AND Gate"});
 		for (int iter = 0; iter <= (n_typ-AND_GATE_2+1); iter++)
 			add_input_pins (temp, ++node_id, "I", -1);
 		add_output_pins(temp, ++node_id, "O",-1);
-        break;
-	case OR_GATE_2: case OR_GATE_3: case OR_GATE_4: case OR_GATE_5: case OR_GATE_6: case OR_GATE_7: case OR_GATE_8:
+	}
+	else if (n_typ >= OR_GATE_2 && n_typ <= OR_GATE_8) {
 		temp = node_id;
 		nodes.push_back (new or_gate{temp, "OR Gate"});
 		for (int iter = 0; iter <= (n_typ - OR_GATE_2 + 1); iter++) {
 			add_input_pins (temp, ++node_id, "I", -1);
 		}
 		add_output_pins (temp, ++node_id, "O", -1);
-        break;
-    case NOT_GATE:
+	}
+	else if (n_typ==NOT_GATE){
 		temp = node_id;
 		nodes.push_back (new not_gate{temp, "NOT Gate"});
 		add_input_pins (temp, ++node_id, "A", -1);
 		add_output_pins (temp, ++node_id, "A'", -1);
-        break;
-	case MULTIPLEXER8_1: case MULTIPLEXER4_1: case MULTIPLEXER2_1:
+	} 
+	else if (n_typ >= MULTIPLEXER8_1 && n_typ <= MULTIPLEXER2_1) {
 		temp = node_id;
 		int inputno;
 		int selectorno;
@@ -56,15 +55,16 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			assert (0);
 			break;
 		}
-		for ( int iter=0;iter<inputno;iter++)
+		for (int iter = 0; iter < inputno; iter++)
 			add_input_pins (temp, ++node_id, "D", -1);
 		for (int iter = 0; iter < selectorno; iter++)
 			add_input_pins (temp, ++node_id, "S", -1);
 		add_output_pins (temp, ++node_id, "Y", -1);
-		break;
-	case DEMULTIPLEXER1_8: case DEMULTIPLEXER1_4: case DEMULTIPLEXER1_2:
+	} 
+	else if (n_typ >= DEMULTIPLEXER1_8 && n_typ <= DEMULTIPLEXER1_2) {
 		temp = node_id;
 		int outputno;
+		int selectorno;
 		switch (n_typ) {
 		case DEMULTIPLEXER1_8:
 			nodes.push_back (new demultiplexer{temp, "DeMultiplexer 1_8"});
@@ -87,11 +87,36 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			add_input_pins (temp, ++node_id, "S", -1);
 		for (int iter = 0; iter < outputno; iter++)
 			add_output_pins (temp, ++node_id, "Y", -1);
-		break;
-    default:
-        assert(0);
-        break;
-    }
+	} 
+	else if (n_typ >= DECODER3_8 && n_typ <= DECODER1_2) {
+		temp = node_id;
+		int outputno;
+		int inputno;
+		switch (n_typ) {
+		case DECODER3_8:
+			nodes.push_back (new decoder{temp, "Decoder 3_8"});
+			outputno = 8, inputno = 3;
+			break;
+		case DECODER2_4:
+			nodes.push_back (new decoder{temp, "Decoder 2_4"});
+			outputno = 4, inputno = 2;
+			break;
+		case DECODER1_2:
+			nodes.push_back (new decoder{temp, "Decoder 1_2"});
+			outputno = 2, inputno = 1;
+			break;
+		default:
+			assert (0);
+			break;
+		}
+		for (int iter = 0; iter < inputno; iter++)
+			add_input_pins (temp, ++node_id, "S", -1);
+		for (int iter = 0; iter < outputno; iter++)
+			add_output_pins (temp, ++node_id, "Y", -1);
+	} 
+	else {
+		assert (0);
+	}
     return 0;
 }
 

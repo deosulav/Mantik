@@ -101,6 +101,43 @@ class not_gate : public node {
 	}
 };
 
+class decoder : public node {
+  public:
+	decoder (int id, std::string name)
+		: node (id, name) {}
+
+	int
+	calculate ( ) {
+		bool temp		  = false;
+		bool checkinvalid = false;
+		for (in_pin& ipin : this->input_pins) {
+			if (ipin.value == -1) {
+				checkinvalid = true;
+				break;
+			}
+		}
+		if (checkinvalid) {
+			for (out_pin& opin : this->output_pins) {
+				opin.value = -1;
+			}
+		} else {
+			for (out_pin& opin : this->output_pins) {
+				opin.value = 0;
+			}
+			if (this->input_pins.size ( ) == 3) {
+				this->output_pins[mapvalues(this->input_pins[0].value, this->input_pins[1].value, this->input_pins[2].value)].value = 1;
+			}
+			if (this->input_pins.size ( ) == 2) {
+				this->output_pins[mapvalues (this->input_pins[0].value, this->input_pins[1].value, 0)].value =1;
+			}
+			if (this->input_pins.size ( ) == 1) {
+				this->output_pins[mapvalues (this->input_pins[0].value, 0, 0)].value = 1;
+			}
+		}
+		return 0;
+	}
+};
+
 class multiplexer : public node {
   public:
 	multiplexer (int id, std::string name)
@@ -135,6 +172,7 @@ class multiplexer : public node {
 		return 0;
 	}
 };
+
 class demultiplexer : public node {
   public:
 	demultiplexer (int id, std::string name)

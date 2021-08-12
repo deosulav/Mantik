@@ -154,7 +154,7 @@ main (int, char**) {
 
 
 		ImGui::NewLine();
-		if (ImGui::Button ("Input"))
+		if (ImGui::Button ("  Input  "))
 			isAdding = {true, INPUT};
 		if (c == INPUT) {
 			if (ImGui::Button ("  1  "))
@@ -175,7 +175,7 @@ main (int, char**) {
 				isAdding = {true, INPUT_8}, c = false;
 		}
 
-		if (ImGui::Button("And Gate"))
+		if (ImGui::Button("  And Gate  "))
 			isAdding = {true, AND_GATE};
 		if (c == AND_GATE) {
 			if (ImGui::Button ("  2 input  "))
@@ -193,7 +193,8 @@ main (int, char**) {
 			if (ImGui::Button ("  8 input  "))
 				isAdding = {true, AND_GATE_8}, c = false;
 		}
-		if (ImGui::Button("Or Gate"))
+
+		if (ImGui::Button("  Or Gate  "))
 			isAdding = {true, OR_GATE};
 		if (c == OR_GATE) {
 			if (ImGui::Button ("  2 input  "))
@@ -212,26 +213,39 @@ main (int, char**) {
 				isAdding = {true, OR_GATE_8}, c = false;
 		}
 
-		if (ImGui::Button("Not Gate"))
+		if (ImGui::Button("  Not Gate  "))
 			isAdding = {true, NOT_GATE};
-		if (ImGui::Button ("Multiplexer"))
+
+		if (ImGui::Button ("  Decoder  "))
+			isAdding = {true, DECODER};
+		if (c == DECODER) {
+			if (ImGui::Button (" 3:8 Decoder "))
+				isAdding = {true, DECODER3_8}, c = false;
+			if (ImGui::Button (" 2:4 Decoder "))
+				isAdding = {true, DECODER2_4}, c = false;
+			if (ImGui::Button (" 1:2 Decoder "))
+				isAdding = {true, DECODER1_2}, c = false;
+		}
+
+		if (ImGui::Button ("  Multiplexer  "))
 			isAdding = {true, MULTIPLEXER};
 		if (c==MULTIPLEXER) {
-			if (ImGui::Button ("8:1"))
+			if (ImGui::Button (" 8:1 Mux "))
 				isAdding = {true, MULTIPLEXER8_1},c = false;
-			if (ImGui::Button ("4:1"))
+			if (ImGui::Button (" 4:1 Mux "))
 				isAdding = {true, MULTIPLEXER4_1}, c = false;
-			if (ImGui::Button ("2:1"))
+			if (ImGui::Button (" 2:1 Mux "))
 				isAdding = {true, MULTIPLEXER2_1}, c = false;
 		}
-		if (ImGui::Button ("DeMultiplexer"))
+
+		if (ImGui::Button ("  DeMultiplexer  "))
 			isAdding = {true, DEMULTIPLEXER};
 		if (c == DEMULTIPLEXER) {
-			if (ImGui::Button ("8:1"))
+			if (ImGui::Button (" 1:8 DeMUX "))
 				isAdding = {true, DEMULTIPLEXER1_8}, c = false;
-			if (ImGui::Button ("4:1"))
+			if (ImGui::Button (" 1:4 DeMUX "))
 				isAdding = {true, DEMULTIPLEXER1_4}, c = false;
-			if (ImGui::Button ("2:1"))
+			if (ImGui::Button (" 1:2 DeMUX "))
 				isAdding = {true, DEMULTIPLEXER1_2}, c = false;
 		}
 		ImGui::End();
