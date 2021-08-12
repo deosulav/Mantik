@@ -41,15 +41,15 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		int selectorno;
 		switch (n_typ) {
 		case MULTIPLEXER8_1:
-			nodes.push_back (new multiplexer8_1{temp, "Multiplexer 8_1"});
+			nodes.push_back (new multiplexer{temp, "Multiplexer 8_1"});
 			inputno = 8, selectorno = 3;
 			break;
 		case MULTIPLEXER4_1:
-			//nodes.push_back (new multiplexer{temp, "Multiplexer 4_1"});
+			nodes.push_back (new multiplexer{temp, "Multiplexer 4_1"});
 			inputno = 4, selectorno = 2;
 			break;
 		case MULTIPLEXER2_1:
-			//nodes.push_back (new multiplexer{temp, "Multiplexer 2_1"});
+			nodes.push_back (new multiplexer{temp, "Multiplexer 2_1"});
 			inputno = 2, selectorno = 1;
 			break;
 		default:

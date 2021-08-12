@@ -2,7 +2,24 @@
 #define ADD_GATE_
 
 #include "node.h"
-
+static int mapvalues ( bool s0 , bool s1 , bool s2) {
+	if (s0 == 0 && s1 == 0 && s2 == 0)
+		return 0;
+	if (s0 == 1 && s1 == 0 && s2 == 0)
+		return 1;
+	if (s0 == 0 && s1 == 1 && s2 == 0)
+		return 2;
+	if (s0 == 1 && s1 == 1 && s2 == 0)
+		return 3;
+	if (s0 == 0 && s1 == 0 && s2 == 1)
+		return 4;
+	if (s0 == 1 && s1 == 0 && s2 == 1)
+		return 5;
+	if (s0 == 0 && s1 == 1 && s2 == 1)
+		return 6;
+	if (s0 == 1 && s1 == 1 && s2 == 1)
+		return 7;
+}
 class input : public node {
   public:
 	input (int id, std::string name)
@@ -34,7 +51,7 @@ public:
 			this->output_pins[0].value = -1;
 		} else {
 			for (in_pin& ipin : this->input_pins) {
-				temp *= (bool) ipin.value;
+				temp = temp * (bool) ipin.value;
 			}
 			this->output_pins[0].value = temp;
 		}
@@ -61,7 +78,7 @@ class or_gate : public node {
 			this->output_pins[0].value = -1;
 		} else {
 			for (in_pin& ipin : this->input_pins) {
-				temp += ( bool )ipin.value;
+				temp = temp + ( bool )ipin.value;
 			}
 			this->output_pins[0].value = temp;
 		}
@@ -84,9 +101,9 @@ class not_gate : public node {
 	}
 };
 
-class multiplexer8_1 : public node {
+class multiplexer : public node {
   public:
-	multiplexer8_1 (int id, std::string name)
+	multiplexer (int id, std::string name)
 		: node (id, name) {}
 
 	int
@@ -102,15 +119,15 @@ class multiplexer8_1 : public node {
 		if (checkinvalid) {
 			this->output_pins[0].value = -1;
 		} else {
-			this->output_pins[0].value = ( int )( 
-			!( bool )this->input_pins[10].value * !( bool )this->input_pins[9].value * !( bool )this->input_pins[8].value * ( bool )this->input_pins[0].value +
-			!( bool )this->input_pins[10].value * !( bool )this->input_pins[9].value *  ( bool )this->input_pins[8].value * ( bool )this->input_pins[1].value +
-			!( bool )this->input_pins[10].value *  ( bool )this->input_pins[9].value * !( bool )this->input_pins[8].value * ( bool )this->input_pins[2].value +
-			!( bool )this->input_pins[10].value *  ( bool )this->input_pins[9].value *  ( bool )this->input_pins[8].value * ( bool )this->input_pins[3].value +
-			 ( bool )this->input_pins[10].value * !( bool )this->input_pins[9].value * !( bool )this->input_pins[8].value * ( bool )this->input_pins[4].value +
-			 ( bool )this->input_pins[10].value * !( bool )this->input_pins[9].value *  ( bool )this->input_pins[8].value * ( bool )this->input_pins[5].value +
-			 ( bool )this->input_pins[10].value *  ( bool )this->input_pins[9].value * !( bool )this->input_pins[8].value * ( bool )this->input_pins[6].value +
-			 ( bool )this->input_pins[10].value *  ( bool )this->input_pins[9].value *  ( bool )this->input_pins[8].value * ( bool )this->input_pins[7].value);
+			if (this->input_pins.size ( ) == 11) {
+				this->output_pins[0].value=this->input_pins[mapvalues (this->input_pins[8].value, this->input_pins[9].value, this->input_pins[10].value )].value;
+			}
+			if (this->input_pins.size ( ) == 6) {
+				this->output_pins[0].value=this->input_pins[mapvalues (this->input_pins[4].value, this->input_pins[5].value, 0)].value;
+			}
+			if (this->input_pins.size ( ) == 3) {
+				this->output_pins[0].value=this->input_pins[mapvalues (this->input_pins[2].value, 0, 0)].value;
+			}
 		}
 		return 0;
 	}
