@@ -11,7 +11,7 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "Input"});
 		for ( int iter=0;iter<=(n_typ-INPUT_1);iter++)
-			add_output_pins (temp, ++node_id, "I", 0);
+			add_output_pins (temp, ++node_id, "I" + (std::to_string (iter)), 0);
 	} 
 	else if (n_typ == OUTPUT) {
 		temp = node_id;
@@ -22,14 +22,14 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "AND Gate"});
 		for (int iter = 0; iter <= (n_typ-AND_GATE_2+1); iter++)
-			add_input_pins (temp, ++node_id, "I", -1);
+			add_input_pins (temp, ++node_id, "I" + (std::to_string (iter)), -1);
 		add_output_pins(temp, ++node_id, "O",-1);
 	}
 	else if (n_typ >= OR_GATE_2 && n_typ <= OR_GATE_8) {
 		temp = node_id;
 		nodes.push_back (new or_gate{temp, "OR Gate"});
 		for (int iter = 0; iter <= (n_typ - OR_GATE_2 + 1); iter++) {
-			add_input_pins (temp, ++node_id, "I", -1);
+			add_input_pins (temp, ++node_id, "I" + (std::to_string (iter)), -1);
 		}
 		add_output_pins (temp, ++node_id, "O", -1);
 	}
@@ -61,9 +61,9 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			break;
 		}
 		for (int iter = 0; iter < inputno; iter++)
-			add_input_pins (temp, ++node_id, "D", -1);
+			add_input_pins (temp, ++node_id, "D" + (std::to_string (iter)), -1);
 		for (int iter = 0; iter < selectorno; iter++)
-			add_input_pins (temp, ++node_id, "S", -1);
+			add_input_pins (temp, ++node_id, "S" + (std::to_string (iter)), -1);
 		add_output_pins (temp, ++node_id, "Y", -1);
 	} 
 	else if (n_typ >= DEMULTIPLEXER1_8 && n_typ <= DEMULTIPLEXER1_2) {
@@ -89,9 +89,9 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		}
 		add_input_pins (temp, ++node_id, "D", -1);
 		for (int iter = 0; iter < selectorno; iter++)
-			add_input_pins (temp, ++node_id, "S", -1);
+			add_input_pins (temp, ++node_id, "S" + (std::to_string(iter)), -1);
 		for (int iter = 0; iter < outputno; iter++)
-			add_output_pins (temp, ++node_id, "Y", -1);
+			add_output_pins (temp, ++node_id, "Y" + (std::to_string (iter)), -1);
 	} 
 	else if (n_typ >= DECODER3_8 && n_typ <= DECODER1_2) {
 		temp = node_id;
@@ -115,9 +115,9 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			break;
 		}
 		for (int iter = 0; iter < inputno; iter++)
-			add_input_pins (temp, ++node_id, "S", -1);
+			add_input_pins (temp, ++node_id, "S" + (std::to_string (iter)), -1);
 		for (int iter = 0; iter < outputno; iter++)
-			add_output_pins (temp, ++node_id, "Y", -1);
+			add_output_pins (temp, ++node_id, "Y" + (std::to_string (iter)), -1);
 	} 
 	else {
 		assert (0);
@@ -282,7 +282,8 @@ node_manager::render ( ) {
 				ImGui::Button ((std::to_string(n->input_pins[0].value)).c_str() , {30, 30}); 
 		}
 		ImNodes::EndNode ( );
-			iflag = false; // formality sake
+		iflag = false;
+		oflag = false; 
 	}
 	for (link& l : links) {
 		ImNodes::Link (l.m_unique_id, l.start_pin, l.end_pin);
