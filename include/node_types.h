@@ -13,6 +13,8 @@ enum node_types
 	INPUT_7,
 	INPUT_8,
 
+	OUTPUT,
+
 	AND_GATE_2,
 	AND_GATE_3,
 	AND_GATE_4,

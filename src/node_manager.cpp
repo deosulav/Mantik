@@ -12,6 +12,11 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		nodes.push_back (new and_gate{temp, "Input"});
 		for ( int iter=0;iter<=(n_typ-INPUT_1);iter++)
 			add_output_pins (temp, ++node_id, "I", 0);
+	} 
+	else if (n_typ == OUTPUT) {
+		temp = node_id;
+		nodes.push_back (new output{temp, "Output"});
+		add_input_pins (temp, ++node_id, "", -1);
 	}
 	else if (n_typ >= AND_GATE_2 && n_typ <= AND_GATE_8) {
 		temp = node_id;
@@ -225,7 +230,8 @@ node_manager::remove_link (int l_id) {
 int
 node_manager::render ( ) {
 	ImVec4 color = {0.36f, 0.36f, 0.36f, 1.0f};
-	bool   flag	 = false; // flag to check if input pins/out pins exist
+	bool   iflag	 = false; // flag to check if input pins/out pins exist
+	bool   oflag = false;
 	for (node* n : nodes) {
 
 		ImNodes::BeginNode (n->m_unique_id);
@@ -244,9 +250,9 @@ node_manager::render ( ) {
 			ImGui::SameLine ( );
 			ImGui::Text ("%s", pin.pin_name.c_str ( ));
 			ImNodes::EndInputAttribute ( );
-			flag = true;
+			iflag = true;
 		}
-		if (flag==true) ImGui::NewLine ( );
+		if (iflag==true) ImGui::NewLine ( );
 		for (out_pin& pin : n->output_pins) {
 			if (pin.value == 0)
 				color = {0.5f, 1.0f, 0.25f, 1.0f};
@@ -255,7 +261,7 @@ node_manager::render ( ) {
 			if (pin.value == -1)
 				color = {0.36f, 0.36f, 0.36f, 1.0f};
 			ImNodes::BeginOutputAttribute (pin.pin_id);
-			if (flag == false) {						  // if input pin doesn't exist i.e for input node
+			if (iflag == false) {						  // if input pin doesn't exist i.e for input node
 				if (ImGui::Button ("", {15, 15})) {		  // create a button and check if its pressed
 					pin.value = ( int )!bool (pin.value); // flip 0 and 1 //could use review as I'm unsure how safe it is
 				}
@@ -266,9 +272,17 @@ node_manager::render ( ) {
 			ImGui::SameLine ( );
 			ImGui::ColorButton ("", color, ImGuiColorEditFlags_NoTooltip, {15, 15});
 			ImNodes::EndOutputAttribute ( );
+			oflag = true;
+		}
+		if (oflag == false) {
+			ImGui::Indent;
+			if (n->input_pins[0].value==-1)
+				ImGui::Button ("", {30, 30}); 
+			else
+				ImGui::Button ((std::to_string(n->input_pins[0].value)).c_str() , {30, 30}); 
 		}
 		ImNodes::EndNode ( );
-			flag = false; // formality sake
+			iflag = false; // formality sake
 	}
 	for (link& l : links) {
 		ImNodes::Link (l.m_unique_id, l.start_pin, l.end_pin);
