@@ -240,9 +240,9 @@ node_manager::render ( ) {
 		ImNodes::EndNodeTitleBar ( );
 		for (in_pin& pin : n->input_pins) {
 			if (pin.value == 0) // checking value and render proper color
-				color = {0.5f, 1.0f, 0.25f, 1.0f};
-			if (pin.value == 1)
 				color = {0.992f, 0.266f, 0.423f, 1.0f};
+			if (pin.value == 1)
+				color = {0.5f, 1.0f, 0.25f, 1.0f};
 			if (pin.value == -1)
 				color = {0.36f, 0.36f, 0.36f, 1.0f};
 			ImNodes::BeginInputAttribute (pin.pin_id);
@@ -255,9 +255,9 @@ node_manager::render ( ) {
 		if (iflag==true) ImGui::NewLine ( );
 		for (out_pin& pin : n->output_pins) {
 			if (pin.value == 0)
-				color = {0.5f, 1.0f, 0.25f, 1.0f};
-			if (pin.value == 1)
 				color = {0.992f, 0.266f, 0.423f, 1.0f};
+			if (pin.value == 1)
+				color = {0.5f, 1.0f, 0.25f, 1.0f};
 			if (pin.value == -1)
 				color = {0.36f, 0.36f, 0.36f, 1.0f};
 			ImNodes::BeginOutputAttribute (pin.pin_id);
