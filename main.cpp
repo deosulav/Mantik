@@ -220,6 +220,17 @@ main (int, char**) {
 		if (ImGui::Button("  Not Gate       "))
 			isAdding = {true, NOT_GATE};
 
+			if (ImGui::Button ("  Encoder        "))
+		isAdding = {true, ENCODER};
+		if (c == ENCODER) {
+			if (ImGui::Button ("  8:3 Encoder  "))
+				isAdding = {true, ENCODER8_3}, c = false;
+			if (ImGui::Button ("  4:2 Encoder  "))
+				isAdding = {true, ENCODER4_2}, c = false;
+			if (ImGui::Button ("  2:1 Encoder  "))
+				isAdding = {true, ENCODER2_1}, c = false;
+		}
+
 		if (ImGui::Button ("  Decoder        "))
 			isAdding = {true, DECODER};
 		if (c == DECODER) {

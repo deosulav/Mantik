@@ -111,6 +111,49 @@ class not_gate : public node {
 	}
 };
 
+class encoder : public node {
+  public:
+	encoder (int id, std::string name)
+		: node (id, name) {}
+
+	int
+	calculate ( ) {
+		bool temp		  = false;
+		bool checkinvalid = false;
+		for (in_pin& ipin : this->input_pins) {
+			if (ipin.value == -1) {
+				checkinvalid = true;
+				break;
+			}
+		}
+		if (checkinvalid) {
+			for (out_pin& opin : this->output_pins) {
+				opin.value = -1;
+			}
+		} else {
+			if (this->input_pins.size ( ) == 8) {
+				this->output_pins[0].value =
+					(int)(bool)(this->input_pins[7].value + this->input_pins[5].value + this->input_pins[3].value + this->input_pins[1].value);
+				this->output_pins[1].value =
+					(int)(bool)(this->input_pins[7].value + this->input_pins[6].value + this->input_pins[3].value + this->input_pins[2].value);
+				this->output_pins[2].value =
+					(int)(bool)(this->input_pins[7].value + this->input_pins[6].value + this->input_pins[5].value + this->input_pins[4].value);
+			}
+			if (this->input_pins.size ( ) == 4) {
+				this->output_pins[0].value =
+					(int)(bool)(this->input_pins[3].value + this->input_pins[1].value);
+				this->output_pins[1].value =
+					(int)(bool)(this->input_pins[3].value + this->input_pins[2].value);
+			}
+			if (this->input_pins.size ( ) == 2) {
+				this->output_pins[0].value =
+					this->input_pins[1].value;
+			}
+		}
+		return 0;
+	}
+};
+
 class decoder : public node {
   public:
 	decoder (int id, std::string name)

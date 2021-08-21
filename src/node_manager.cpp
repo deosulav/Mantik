@@ -13,11 +13,13 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		for ( int iter=0;iter<=(n_typ-INPUT_1);iter++)
 			add_output_pins (temp, ++node_id, "I" + (std::to_string (iter)), 0);
 	} 
+
 	else if (n_typ == OUTPUT) {
 		temp = node_id;
 		nodes.push_back (new output{temp, "Output"});
 		add_input_pins (temp, ++node_id, "", -1);
 	}
+	
 	else if (n_typ >= AND_GATE_2 && n_typ <= AND_GATE_8) {
 		temp = node_id;
 		nodes.push_back (new and_gate{temp, "AND Gate"});
@@ -25,6 +27,7 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			add_input_pins (temp, ++node_id, "I" + (std::to_string (iter)), -1);
 		add_output_pins(temp, ++node_id, "O",-1);
 	}
+	
 	else if (n_typ >= OR_GATE_2 && n_typ <= OR_GATE_8) {
 		temp = node_id;
 		nodes.push_back (new or_gate{temp, "OR Gate"});
@@ -33,12 +36,68 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		}
 		add_output_pins (temp, ++node_id, "O", -1);
 	}
+	
 	else if (n_typ==NOT_GATE){
 		temp = node_id;
 		nodes.push_back (new not_gate{temp, "NOT Gate"});
 		add_input_pins (temp, ++node_id, "A", -1);
 		add_output_pins (temp, ++node_id, "A'", -1);
+	}
+
+	else if (n_typ >= ENCODER8_3 && n_typ <= ENCODER2_1) {
+		temp = node_id;
+		int outputno;
+		int inputno;
+		switch (n_typ) {
+		case ENCODER8_3:
+			nodes.push_back (new encoder{temp, "Encoder 8_3"});
+			outputno = 3, inputno = 8;
+			break;
+		case ENCODER4_2:
+			nodes.push_back (new encoder{temp, "Encoder 4_2"});
+			outputno = 2, inputno = 4;
+			break;
+		case ENCODER2_1:
+			nodes.push_back (new encoder{temp, "Encoder 2_1"});
+			outputno = 1, inputno = 2;
+			break;
+		default:
+			assert (0);
+			break;
+		}
+		for (int iter = 0; iter < inputno; iter++)
+			add_input_pins (temp, ++node_id, "S" + (std::to_string (iter)), -1);
+		for (int iter = 0; iter < outputno; iter++)
+			add_output_pins (temp, ++node_id, "Y" + (std::to_string (iter)), -1);
+	}	
+
+	else if (n_typ >= DECODER3_8 && n_typ <= DECODER1_2) {
+		temp = node_id;
+		int outputno;
+		int inputno;
+		switch (n_typ) {
+		case DECODER3_8:
+			nodes.push_back (new decoder{temp, "Decoder 3_8"});
+			outputno = 8, inputno = 3;
+			break;
+		case DECODER2_4:
+			nodes.push_back (new decoder{temp, "Decoder 2_4"});
+			outputno = 4, inputno = 2;
+			break;
+		case DECODER1_2:
+			nodes.push_back (new decoder{temp, "Decoder 1_2"});
+			outputno = 2, inputno = 1;
+			break;
+		default:
+			assert (0);
+			break;
+		}
+		for (int iter = 0; iter < inputno; iter++)
+			add_input_pins (temp, ++node_id, "S" + (std::to_string (iter)), -1);
+		for (int iter = 0; iter < outputno; iter++)
+			add_output_pins (temp, ++node_id, "Y" + (std::to_string (iter)), -1);
 	} 
+
 	else if (n_typ >= MULTIPLEXER8_1 && n_typ <= MULTIPLEXER2_1) {
 		temp = node_id;
 		int inputno;
@@ -66,6 +125,7 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 			add_input_pins (temp, ++node_id, "S" + (std::to_string (iter)), -1);
 		add_output_pins (temp, ++node_id, "Y", -1);
 	} 
+	
 	else if (n_typ >= DEMULTIPLEXER1_8 && n_typ <= DEMULTIPLEXER1_2) {
 		temp = node_id;
 		int outputno;
@@ -90,32 +150,6 @@ node_manager::add_node (int& node_id, std::string name, node_types n_typ) {
 		add_input_pins (temp, ++node_id, "D", -1);
 		for (int iter = 0; iter < selectorno; iter++)
 			add_input_pins (temp, ++node_id, "S" + (std::to_string(iter)), -1);
-		for (int iter = 0; iter < outputno; iter++)
-			add_output_pins (temp, ++node_id, "Y" + (std::to_string (iter)), -1);
-	} 
-	else if (n_typ >= DECODER3_8 && n_typ <= DECODER1_2) {
-		temp = node_id;
-		int outputno;
-		int inputno;
-		switch (n_typ) {
-		case DECODER3_8:
-			nodes.push_back (new decoder{temp, "Decoder 3_8"});
-			outputno = 8, inputno = 3;
-			break;
-		case DECODER2_4:
-			nodes.push_back (new decoder{temp, "Decoder 2_4"});
-			outputno = 4, inputno = 2;
-			break;
-		case DECODER1_2:
-			nodes.push_back (new decoder{temp, "Decoder 1_2"});
-			outputno = 2, inputno = 1;
-			break;
-		default:
-			assert (0);
-			break;
-		}
-		for (int iter = 0; iter < inputno; iter++)
-			add_input_pins (temp, ++node_id, "S" + (std::to_string (iter)), -1);
 		for (int iter = 0; iter < outputno; iter++)
 			add_output_pins (temp, ++node_id, "Y" + (std::to_string (iter)), -1);
 	} 
