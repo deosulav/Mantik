@@ -146,9 +146,19 @@ main (int, char**) {
 		bool isOpen;
 
 		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h;
+		window_size.y = ( float )s_h*0.1f;
 		ImGui::SetNextWindowSize (window_size);
 		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, 0});
+
+		ImGui::Begin("Desc", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
+		ImGui::TextUnformatted("Red Color is Logic Low");
+		ImGui::TextUnformatted ("Green Color is Logic High");
+		ImGui::End();
+		
+		window_size.x = ( float )s_w * 0.25f;
+		window_size.y = ( float )s_h*0.9f;
+		ImGui::SetNextWindowSize (window_size);
+		ImGui::SetNextWindowPos ({( float )s_w * 0.75f, (float)0.1*s_h});
 
 		ImGui::Begin("Experimental", &isOpen, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
 		ImGui::TextUnformatted("Add Nodes!");
