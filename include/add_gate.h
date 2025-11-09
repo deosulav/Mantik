@@ -17,8 +17,7 @@ static int mapvalues ( bool s0 , bool s1 , bool s2) {
 		return 5;
 	if (s0 == 0 && s1 == 1 && s2 == 1)
 		return 6;
-	if (s0 == 1 && s1 == 1 && s2 == 1)
-		return 7;
+	return 7;
 }
 class input : public node {
   public:

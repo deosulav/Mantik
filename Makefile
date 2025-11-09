@@ -1,7 +1,5 @@
 build:
-	clang++ -g3 -std=c++17 main.cpp src/imgui/*.cpp src/imnodes/*.cpp src/*.cpp -Iinclude -Iinclude/imgui -Iinclude/imnodes -lSDL2 -lGL -lGLU -lGLEW -o bin/ProteusClone
+	clang++ -g3 -std=c++17 -Wno-nontrivial-memcall deps/imgui/*.cpp deps/imnodes/*.cpp src/*.cpp -Iinclude -Ideps -Ideps -lSDL2 -lGL -lGLU -lGLEW -o build/Mantik
 
-ex_src=/home/rls/Documents/Projects/ProteusCloneSDL/dependencies/imnodes/example/
-
-build-example:
-	clang++ ${ex_src}/main.cpp ${ex_src}/save_load.cpp src/imgui/*.cpp src/imnodes/*.cpp -Iinclude -Iinclude/imgui -Iinclude/imnodes -lSDL2 -lGL -lGLU -lGLEW -o bin/ProteusClone
+clean:
+	rm -f build/Mantik

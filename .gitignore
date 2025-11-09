@@ -1,9 +1,5 @@
 .vs
-ProteusCloneSDL.sln
-ProteusCloneSDL.vcxproj
-ProteusCloneSDL.vcxproj.filters
-ProteusCloneSDL.vcxproj.user
+*.vcxproj.user
 imgui.ini
-SDL2.dll
-glew32.dll
-x64
+build
+bin

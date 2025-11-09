@@ -309,7 +309,7 @@ node_manager::render ( ) {
 			oflag = true;
 		}
 		if (oflag == false) {
-			ImGui::Indent;
+			ImGui::Indent ( );
 			if (n->input_pins[0].value==-1)
 				ImGui::Button ("", {30, 30}); 
 			else
