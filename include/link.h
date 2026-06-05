@@ -13,8 +13,7 @@ class link {
 		, start_node(st_node)
 		, start_pin(st_pin)
 		, end_node(ed_node)
-		, end_pin(ed_pin)
-	{}
+		, end_pin(ed_pin) {}
 
 	link& operator=(const link& other) noexcept;
 

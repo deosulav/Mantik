@@ -48,6 +48,9 @@
     <ClCompile Include="deps\imnodes\imnodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\setup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
@@ -463,6 +466,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="deps\SDL2\SDL_vulkan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,7 @@
 #ifndef NODE_TYPES_H
 #define NODE_TYPES_H
 
-enum node_types
-{
+enum node_types {
 	NOT_ADDING = 0,
 	INPUT_1,
 	INPUT_2,
@@ -30,7 +29,7 @@ enum node_types
 	OR_GATE_6,
 	OR_GATE_7,
 	OR_GATE_8,
-	
+
 	NOT_GATE,
 
 	ENCODER8_3,
