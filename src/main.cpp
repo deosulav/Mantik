@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_opengl3.h>
-#include <imgui/imgui_impl_sdl.h>
+#include <imgui/imgui_impl_sdl2.h>
 #include <imnodes/imnodes.h>
 #include <math.h>
 
@@ -46,7 +46,7 @@ int main(int, char**) {
 
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame(context.window);
+		ImGui_ImplSDL2_NewFrame();
 		ImGui::NewFrame();
 		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
 
