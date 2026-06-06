@@ -9,7 +9,7 @@
 #include "setup.h"
 
 GraphicsContext createWindow() {
-	const char* glsl_version = "#version 130";
+	const char* glsl_version = "#version 150";
 
 	SDL_Window* window = nullptr;
 	SDL_GLContext gl_context;

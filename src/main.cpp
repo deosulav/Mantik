@@ -4,17 +4,20 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
 #include <imnodes/imnodes.h>
+#include <math.h>
 
 #include "new_node.h"
 #include "node_manager.h"
 #include "setup.h"
+#include "ui.h"
+
 
 int main(int, char**) {
 	GraphicsContext context = createWindow();
 
 	bool done = false;
 	int c	  = 0; // to identify proper generics for combinational circuit
-	int s_w, s_h;
+	int screenWidth, screenHeight;
 
 	int unique_number = 0;
 	node_manager node_man;
@@ -45,15 +48,15 @@ int main(int, char**) {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(context.window);
 		ImGui::NewFrame();
+		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
 
 		// Meat Logic goes here:
 		ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 
-		SDL_GetWindowSize(context.window, &s_w, &s_h);
-		ImVec2 window_size{( float )s_w * 0.75f, ( float )s_h};
-		ImGui::SetNextWindowSize(window_size);
+		SDL_GetWindowSize(context.window, &screenWidth, &screenHeight);
+		ImVec2 windowSize{( float )screenWidth - SIDEBAR_WIDTH, ( float )screenHeight};
+		ImGui::SetNextWindowSize(windowSize);
 		ImGui::SetNextWindowPos({0, 0});
-
 
 
 		ImGui::Begin(
@@ -84,164 +87,27 @@ int main(int, char**) {
 
 		ImGui::End();
 
-		bool isOpen;
-
-		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h * 0.1f;
-		ImGui::SetNextWindowSize(window_size);
-		ImGui::SetNextWindowPos({( float )s_w * 0.75f, 0});
-
-		ImGui::Begin(
-			"Desc",
-			&isOpen,
-			ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-				ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
-		ImGui::TextUnformatted("Red Color is Logic Low");
-		ImGui::TextUnformatted("Green Color is Logic High");
-		ImGui::End();
-
-		window_size.x = ( float )s_w * 0.25f;
-		window_size.y = ( float )s_h * 0.9f;
-		ImGui::SetNextWindowSize(window_size);
-		ImGui::SetNextWindowPos({( float )s_w * 0.75f, ( float )0.1 * s_h});
-
-		ImGui::Begin(
-			"Experimental",
-			&isOpen,
-			ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-				ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
-		ImGui::TextUnformatted("Add Nodes!");
-
-
-		ImGui::NewLine();
-		if (ImGui::Button("  Input          "))
-			isAdding = {true, INPUT};
-		if (c == INPUT) {
-			if (ImGui::Button("  1            "))
-				isAdding = {true, INPUT_1}, c = false;
-			if (ImGui::Button("  2            "))
-				isAdding = {true, INPUT_2}, c = false;
-			if (ImGui::Button("  3            "))
-				isAdding = {true, INPUT_3}, c = false;
-			if (ImGui::Button("  4            "))
-				isAdding = {true, INPUT_4}, c = false;
-			if (ImGui::Button("  5            "))
-				isAdding = {true, INPUT_5}, c = false;
-			if (ImGui::Button("  6            "))
-				isAdding = {true, INPUT_6}, c = false;
-			if (ImGui::Button("  7            "))
-				isAdding = {true, INPUT_7}, c = false;
-			if (ImGui::Button("  8            "))
-				isAdding = {true, INPUT_8}, c = false;
-		}
-
-		if (ImGui::Button("  Output         "))
-			isAdding = {true, OUTPUT};
-
-		if (ImGui::Button("  And Gate       "))
-			isAdding = {true, AND_GATE};
-		if (c == AND_GATE) {
-			if (ImGui::Button("  2 input      "))
-				isAdding = {true, AND_GATE_2}, c = false;
-			if (ImGui::Button("  3 input      "))
-				isAdding = {true, AND_GATE_3}, c = false;
-			if (ImGui::Button("  4 input      "))
-				isAdding = {true, AND_GATE_4}, c = false;
-			if (ImGui::Button("  5 input      "))
-				isAdding = {true, AND_GATE_5}, c = false;
-			if (ImGui::Button("  6 input      "))
-				isAdding = {true, AND_GATE_6}, c = false;
-			if (ImGui::Button("  7 input      "))
-				isAdding = {true, AND_GATE_7}, c = false;
-			if (ImGui::Button("  8 input      "))
-				isAdding = {true, AND_GATE_8}, c = false;
-		}
-
-		if (ImGui::Button("  Or Gate        "))
-			isAdding = {true, OR_GATE};
-		if (c == OR_GATE) {
-			if (ImGui::Button("  2 input      "))
-				isAdding = {true, OR_GATE_2}, c = false;
-			if (ImGui::Button("  3 input      "))
-				isAdding = {true, OR_GATE_3}, c = false;
-			if (ImGui::Button("  4 input      "))
-				isAdding = {true, OR_GATE_4}, c = false;
-			if (ImGui::Button("  5 input      "))
-				isAdding = {true, OR_GATE_5}, c = false;
-			if (ImGui::Button("  6 input      "))
-				isAdding = {true, OR_GATE_6}, c = false;
-			if (ImGui::Button("  7 input      "))
-				isAdding = {true, OR_GATE_7}, c = false;
-			if (ImGui::Button("  8 input      "))
-				isAdding = {true, OR_GATE_8}, c = false;
-		}
-
-		if (ImGui::Button("  Not Gate       "))
-			isAdding = {true, NOT_GATE};
-
-		if (ImGui::Button("  Encoder        "))
-			isAdding = {true, ENCODER};
-		if (c == ENCODER) {
-			if (ImGui::Button("  8:3 Encoder  "))
-				isAdding = {true, ENCODER8_3}, c = false;
-			if (ImGui::Button("  4:2 Encoder  "))
-				isAdding = {true, ENCODER4_2}, c = false;
-			if (ImGui::Button("  2:1 Encoder  "))
-				isAdding = {true, ENCODER2_1}, c = false;
-		}
-
-		if (ImGui::Button("  Decoder        "))
-			isAdding = {true, DECODER};
-		if (c == DECODER) {
-			if (ImGui::Button("  3:8 Decoder  "))
-				isAdding = {true, DECODER3_8}, c = false;
-			if (ImGui::Button("  2:4 Decoder  "))
-				isAdding = {true, DECODER2_4}, c = false;
-			if (ImGui::Button("  1:2 Decoder  "))
-				isAdding = {true, DECODER1_2}, c = false;
-		}
-
-		if (ImGui::Button("  Multiplexer    "))
-			isAdding = {true, MULTIPLEXER};
-		if (c == MULTIPLEXER) {
-			if (ImGui::Button("  8:1 Mux      "))
-				isAdding = {true, MULTIPLEXER8_1}, c = false;
-			if (ImGui::Button("  4:1 Mux      "))
-				isAdding = {true, MULTIPLEXER4_1}, c = false;
-			if (ImGui::Button("  2:1 Mux      "))
-				isAdding = {true, MULTIPLEXER2_1}, c = false;
-		}
-
-		if (ImGui::Button("  DeMultiplexer  "))
-			isAdding = {true, DEMULTIPLEXER};
-		if (c == DEMULTIPLEXER) {
-			if (ImGui::Button("  1:8 DeMUX    "))
-				isAdding = {true, DEMULTIPLEXER1_8}, c = false;
-			if (ImGui::Button("  1:4 DeMUX    "))
-				isAdding = {true, DEMULTIPLEXER1_4}, c = false;
-			if (ImGui::Button("  1:2 DeMUX    "))
-				isAdding = {true, DEMULTIPLEXER1_2}, c = false;
-		}
-		ImGui::End();
+		drawSideBar(&isAdding, &c);
 
 		if (isAdding.isAdding) {
-			window_size.x = ( float )s_w * 0.75f;
-			window_size.y = ( float )s_h;
-			ImGui::SetNextWindowSize(window_size);
+			windowSize.x = ( float )screenWidth - SIDEBAR_WIDTH;
+			windowSize.y = ( float )screenHeight;
+			ImGui::SetNextWindowSize(windowSize);
 			ImGui::SetNextWindowPos({0, 0});
 			ImGui::SetNextWindowBgAlpha(0.40f);
 
 			ImGui::Begin(
 				"Adding Node",
-				&isOpen,
+				nullptr,
 				ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse |
 					ImGuiWindowFlags_NoTitleBar);
 			ImGui::End();
 		}
 
 
+		ImGui::PopStyleVar();
 
-		// ImGui::ShowDemoWindow( );
+		// ImGui::ShowDemoWindow();
 		node_man.copyover();
 		node_man.calculate();
 		// Rendering
