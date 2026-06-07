@@ -28,7 +28,6 @@ class Node {
 
   protected:
 	std::vector<OutPin> outputPins;
-	std::vector<Node*> mInputs; // subject to removal
 
 	virtual void calculate() = 0;
 	friend class NodeManager;

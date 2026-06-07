@@ -2,6 +2,7 @@
 #define NODE_MANAGER_H_
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "imgui/imgui.h"
@@ -13,13 +14,11 @@
 
 class NodeManager {
   private:
-	std::vector<Node*> nodes;
-	std::vector<Link> links;
+	std::unordered_map<int, Node*> nodes;
+	std::unordered_map<int, Link*> links;
 
   public:
 	int addNode(int& id, std::string name, NodeType type);
-	int addInputPin(int& nodeId, int id, std::string name, int value);
-	int addOuputPin(int& nodeId, int id, std::string name, int value);
 	int addLink(int& id, int startNode, int startPin, int endNode, int endPin);
 	int removeLink(int const);
 
