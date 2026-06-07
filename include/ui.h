@@ -1,7 +1,7 @@
 #ifndef UI_H_
 #define UI_H_
-#include "new_node.h"
+#include "NodeAddState.h"
 
 extern int SIDEBAR_WIDTH;
-void drawSideBar(node_adder* isAdding, int* c);
+void drawSideBar(NodeAddState* isAdding, int* c);
 #endif

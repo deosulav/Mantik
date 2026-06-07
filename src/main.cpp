@@ -5,8 +5,8 @@
 #include <imnodes/imnodes.h>
 #include <math.h>
 
-#include "new_node.h"
-#include "node_manager.h"
+#include "NodeAddState.h"
+#include "NodeManager.h"
 #include "setup.h"
 #include "ui.h"
 
@@ -16,12 +16,11 @@ int main(int, char**) {
 
 	bool done = false;
 	int c	  = 0; // to identify proper generics for combinational circuit
-	int screenWidth, screenHeight;
 
-	int unique_number = 0;
-	node_manager node_man;
+	int uniqueNumber = 0;
+	NodeManager nodeManager;
 
-	node_adder isAdding = {false, NOT_ADDING};
+	NodeAddState isAdding = {false, NOT_ADDING};
 	while (!done) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -32,12 +31,12 @@ int main(int, char**) {
 			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED &&
 				event.window.windowID == SDL_GetWindowID(context.window))
 				done = true;
-			if (isAdding.isAdding && isAdding.new_node_typ > GENERICS) {
-				c = isAdding.new_node_typ;
+			if (isAdding.isAdding && isAdding.newNodeType > GENERICS) {
+				c = isAdding.newNodeType;
 			} else if (isAdding.isAdding && event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-				unique_number++;
-				ImNodes::SetNodeScreenSpacePos(unique_number, ImGui::GetMousePos());
-				node_man.add_node(unique_number, "Add Node", isAdding.new_node_typ);
+				uniqueNumber++;
+				ImNodes::SetNodeScreenSpacePos(uniqueNumber, ImGui::GetMousePos());
+				nodeManager.addNode(uniqueNumber, "Add Node", isAdding.newNodeType);
 				isAdding = {false, NOT_ADDING};
 				c		 = NOT_ADDING;
 			}
@@ -54,14 +53,9 @@ int main(int, char**) {
 		ImGui::NewFrame();
 		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
 
-		// Meat Logic goes here:
-		ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
-
-		SDL_GetWindowSize(context.window, &screenWidth, &screenHeight);
-		ImVec2 windowSize{( float )screenWidth - SIDEBAR_WIDTH, ( float )screenHeight};
-		ImGui::SetNextWindowSize(windowSize);
+		ImVec2 viewPortSize = ImGui::GetMainViewport()->Size;
+		ImGui::SetNextWindowSize({viewPortSize.x - SIDEBAR_WIDTH, viewPortSize.y});
 		ImGui::SetNextWindowPos({0, 0});
-
 
 		ImGui::Begin(
 			"Encloser",
@@ -74,32 +68,25 @@ int main(int, char**) {
 		ImNodes::EditorContextSet(context.editorContext);
 		ImNodes::BeginNodeEditor();
 
-		node_man.render();
+		nodeManager.render();
 
 		ImNodes::MiniMap();
 		ImNodes::EndNodeEditor();
 
-		int link_id = -1, start_node_id = -1, start_pin_id = -1, end_node_id = -1, end_pin_id = -1;
+		int linkId = -1, startNodeId = -1, startPinId = -1, endNodeId = -1, endPinId = -1;
 		bool created_from_snap;
-		if (ImNodes::IsLinkCreated(&start_node_id, &start_pin_id, &end_node_id, &end_pin_id, &created_from_snap)) {
-			unique_number++;
-			node_man.add_link(unique_number, start_node_id, start_pin_id, end_node_id, end_pin_id);
+		if (ImNodes::IsLinkCreated(&startNodeId, &startPinId, &endNodeId, &endPinId, &created_from_snap)) {
+			uniqueNumber++;
+			nodeManager.addLink(uniqueNumber, startNodeId, startPinId, endNodeId, endPinId);
 		}
-		if (ImNodes::IsLinkDestroyed(&link_id)) {
-			node_man.remove_link(link_id);
+		if (ImNodes::IsLinkDestroyed(&linkId)) {
+			nodeManager.removeLink(linkId);
 		}
 
 		ImGui::End();
 
-		drawSideBar(&isAdding, &c);
-
 		if (isAdding.isAdding) {
-			windowSize.x = ( float )screenWidth - SIDEBAR_WIDTH;
-			windowSize.y = ( float )screenHeight;
-			ImGui::SetNextWindowSize(windowSize);
-			ImGui::SetNextWindowPos({0, 0});
 			ImGui::SetNextWindowBgAlpha(0.40f);
-
 			ImGui::Begin(
 				"Adding Node",
 				nullptr,
@@ -108,12 +95,13 @@ int main(int, char**) {
 			ImGui::End();
 		}
 
+		drawSideBar(&isAdding, &c);
 
 		ImGui::PopStyleVar();
 
 		// ImGui::ShowDemoWindow();
-		node_man.copyover();
-		node_man.calculate();
+		nodeManager.copyover();
+		nodeManager.calculate();
 		render(context);
 	}
 

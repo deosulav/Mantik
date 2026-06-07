@@ -5,35 +5,37 @@
 #include <string>
 #include <vector>
 
-struct in_pin {
-	int pin_id;
-	std::string pin_name;
+struct InPin {
+	int id;
+	std::string name;
 	int value;
 	int counter = 0;
 };
 
-struct out_pin {
-	int pin_id;
-	std::string pin_name;
+struct OutPin {
+	int id;
+	std::string name;
 	int value;
-	std::vector<in_pin*> connected_inputs;
+	std::vector<InPin*> connectedInputs;
 };
 
-class node {
-	const int m_unique_id;
-	const std::string node_name;
+class Node {
+	const int uniqueId;
+	const std::string name;
+
+  public:
+	std::vector<InPin> inputPins;
 
   protected:
-	std::vector<in_pin> input_pins;
-	std::vector<out_pin> output_pins;
-	std::vector<node*> m_inputs; // subject to removal
+	std::vector<OutPin> outputPins;
+	std::vector<Node*> mInputs; // subject to removal
 
-	virtual int calculate() = 0;
-	friend class node_manager;
+	virtual void calculate() = 0;
+	friend class NodeManager;
 
-	node(int id, std::string name)
-		: m_unique_id(id)
-		, node_name(name) {}
+	Node(int id, std::string name)
+		: uniqueId(id)
+		, name(name) {}
 };
 
 #endif // NODE_H

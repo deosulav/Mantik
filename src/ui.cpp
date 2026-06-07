@@ -6,9 +6,8 @@
 
 int SIDEBAR_WIDTH = 220;
 
-void drawSideBar(node_adder* isAdding, int* c) {
+void drawSideBar(NodeAddState* isAdding, int* c) {
 	ImVec2 windowSize = ImGui::GetMainViewport()->Size;
-	// ImGui::SetNextWindowSize({( float )SIDEBAR_WIDTH, ImGui::GetContentRegionAvail().y * 0.1f});
 	ImGui::SetNextWindowSize({( float )SIDEBAR_WIDTH, windowSize.y * 0.1f});
 	ImGui::SetNextWindowPos({( float )windowSize.x - SIDEBAR_WIDTH, 0});
 
@@ -21,7 +20,6 @@ void drawSideBar(node_adder* isAdding, int* c) {
 	ImGui::TextUnformatted("Green Color is Logic High");
 	ImGui::End();
 
-	// ImGui::SetNextWindowSize({( float )SIDEBAR_WIDTH, ImGui::GetContentRegionAvail().y});
 	ImGui::SetNextWindowSize({( float )SIDEBAR_WIDTH, windowSize.y * 0.9f});
 	ImGui::SetNextWindowPos({windowSize.x - SIDEBAR_WIDTH, 0.1f * windowSize.y});
 
@@ -43,7 +41,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d", i + 1);
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(INPUT_1 + i)}, *c = false;
+				*isAdding = {true, NodeType(INPUT_1 + i)}, *c = false;
 			}
 		}
 	}
@@ -61,7 +59,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d %s", i + 2, "input");
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(AND_GATE_2 + i)}, *c = false;
+				*isAdding = {true, NodeType(AND_GATE_2 + i)}, *c = false;
 			}
 		}
 	}
@@ -75,7 +73,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d %s", i + 2, "input");
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(OR_GATE_2 + i)}, *c = false;
+				*isAdding = {true, NodeType(OR_GATE_2 + i)}, *c = false;
 			}
 		}
 	}
@@ -94,7 +92,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d:%d %s", int(pow(2, 3 - i)), 3 - i, "Encoder");
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(ENCODER8_3 + i)}, *c = false;
+				*isAdding = {true, NodeType(ENCODER8_3 + i)}, *c = false;
 			}
 		}
 	}
@@ -108,7 +106,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d:%d %s", 3 - i, int(pow(2, 3 - i)), "Decoder");
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(DECODER3_8 + i)}, *c = false;
+				*isAdding = {true, NodeType(DECODER3_8 + i)}, *c = false;
 			}
 		}
 	}
@@ -123,7 +121,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d:%d %s", int(pow(2, 3 - i)), 1, "MUX");
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(MULTIPLEXER8_1 + i)}, *c = false;
+				*isAdding = {true, NodeType(MULTIPLEXER8_1 + i)}, *c = false;
 			}
 		}
 	}
@@ -137,7 +135,7 @@ void drawSideBar(node_adder* isAdding, int* c) {
 			snprintf(temp, sizeof(temp), "%d:%d %s", 1, int(pow(2, 3 - i)), "DeMUX");
 			ImGui::Button(temp, size);
 			if (ImGui::IsItemClicked()) {
-				*isAdding = {true, node_types(DEMULTIPLEXER1_8 + i)}, *c = false;
+				*isAdding = {true, NodeType(DEMULTIPLEXER1_8 + i)}, *c = false;
 			}
 		}
 	}

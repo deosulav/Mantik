@@ -1,7 +1,7 @@
-#ifndef NODE_TYPES_H
-#define NODE_TYPES_H
+#ifndef NODE_TYPE_H
+#define NODE_TYPE_H
 
-enum node_types {
+enum NodeType {
 	NOT_ADDING = 0,
 	INPUT_1,
 	INPUT_2,
@@ -60,4 +60,4 @@ enum node_types {
 };
 
 
-#endif // NODE_TYPES_H
+#endif // NODE_TYPE_H
