@@ -1,8 +1,7 @@
-#include <GL/glew.h>
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 #include <imgui/imgui.h>
-#include <imgui/imgui_impl_opengl3.h>
-#include <imgui/imgui_impl_sdl2.h>
+#include <imgui/imgui_impl_sdl3.h>
+#include <imgui/imgui_impl_sdlgpu3.h>
 #include <imnodes/imnodes.h>
 #include <math.h>
 
@@ -26,16 +25,16 @@ int main(int, char**) {
 	while (!done) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			if (event.type == SDL_QUIT || (event.key.keysym.sym == SDLK_ESCAPE)) {
+			ImGui_ImplSDL3_ProcessEvent(&event);
+			if (event.type == SDL_EVENT_QUIT || (event.key.key == SDLK_ESCAPE)) {
 				done = true;
 			}
-			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE &&
+			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED &&
 				event.window.windowID == SDL_GetWindowID(context.window))
 				done = true;
 			if (isAdding.isAdding && isAdding.new_node_typ > GENERICS) {
 				c = isAdding.new_node_typ;
-			} else if (isAdding.isAdding && event.type == SDL_MOUSEBUTTONDOWN) {
+			} else if (isAdding.isAdding && event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 				unique_number++;
 				ImNodes::SetNodeScreenSpacePos(unique_number, ImGui::GetMousePos());
 				node_man.add_node(unique_number, "Add Node", isAdding.new_node_typ);
@@ -44,9 +43,14 @@ int main(int, char**) {
 			}
 		}
 
+		if (SDL_GetWindowFlags(context.window) & SDL_WINDOW_MINIMIZED) {
+			SDL_Delay(10);
+			continue;
+		}
+
 		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame();
+		ImGui_ImplSDLGPU3_NewFrame();
+		ImGui_ImplSDL3_NewFrame();
 		ImGui::NewFrame();
 		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
 
@@ -110,16 +114,7 @@ int main(int, char**) {
 		// ImGui::ShowDemoWindow();
 		node_man.copyover();
 		node_man.calculate();
-		// Rendering
-		ImGui::Render();
-
-		int fb_width, fb_height;
-		SDL_GL_GetDrawableSize(context.window, &fb_width, &fb_height);
-		glViewport(0, 0, fb_width, fb_height);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		SDL_GL_SwapWindow(context.window);
+		render(context);
 	}
 
 	destroyWindow(context);
