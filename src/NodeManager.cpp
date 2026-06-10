@@ -1,9 +1,14 @@
 #include "NodeManager.h"
-#include <iostream>
 
-std::string tempo;
+ImVec4 getPinColor(int value) {
+	if (value == 0)
+		return {0.992f, 0.266f, 0.423f, 1.0f};
+	if (value == 1)
+		return {0.5f, 1.0f, 0.25f, 1.0f};
+	return {0.36f, 0.36f, 0.36f, 1.0f};
+}
 
-int NodeManager::addNode(int& id, std::string name, NodeType type) {
+int NodeManager::addNode(int& id, NodeType type) {
 	int outputno;
 	int inputno;
 	int selectorno;
@@ -184,13 +189,11 @@ int NodeManager::removeLink(int id) {
 			}),
 		oStartPin->connectedInputs.end());
 	this->links.erase(id);
+	delete link;
 	return 0;
 }
 
 int NodeManager::render() {
-	ImVec4 color = {0.36f, 0.36f, 0.36f, 1.0f};
-	bool iflag	 = false; // flag to check if input pins/out pins exist
-	bool oflag	 = false;
 	for (const auto& [key, node] : nodes) {
 
 		ImNodes::BeginNode(node->uniqueId);
@@ -198,43 +201,29 @@ int NodeManager::render() {
 		ImGui::Text("%s", node->name.c_str());
 		ImNodes::EndNodeTitleBar();
 		for (InPin& pin : node->inputPins) {
-			if (pin.value == 0) // checking value and render proper color
-				color = {0.992f, 0.266f, 0.423f, 1.0f};
-			if (pin.value == 1)
-				color = {0.5f, 1.0f, 0.25f, 1.0f};
-			if (pin.value == -1)
-				color = {0.36f, 0.36f, 0.36f, 1.0f};
 			ImNodes::BeginInputAttribute(pin.id);
-			ImGui::ColorButton("1", color, ImGuiColorEditFlags_NoTooltip, {15, 15});
+			ImGui::ColorButton("1", getPinColor(pin.value), ImGuiColorEditFlags_NoTooltip, {15, 15});
 			ImGui::SameLine();
 			ImGui::Text("%s", pin.name.c_str());
 			ImNodes::EndInputAttribute();
-			iflag = true;
 		}
-		if (iflag == true)
+		if (node->inputPins.size())
 			ImGui::NewLine();
 		for (OutPin& pin : node->outputPins) {
-			if (pin.value == 0)
-				color = {0.992f, 0.266f, 0.423f, 1.0f};
-			if (pin.value == 1)
-				color = {0.5f, 1.0f, 0.25f, 1.0f};
-			if (pin.value == -1)
-				color = {0.36f, 0.36f, 0.36f, 1.0f};
 			ImNodes::BeginOutputAttribute(pin.id);
-			if (iflag == false) {						 // if input pin doesn't exist i.e for input node
-				if (ImGui::Button("", {15, 15})) {		 // create a button and check if its pressed
-					pin.value = ( int )!bool(pin.value); // flip 0 and 1 //could use review as I'm unsure how safe it is
+			if (!node->inputPins.size()) {			   // if input pin doesn't exist i.e for input node
+				if (ImGui::Button("##xx", {15, 15})) { // create a button and check if its pressed
+					pin.value = ( int )!bool(pin.value);
 				}
 				ImGui::SameLine();
 			}
 			ImGui::Indent();
 			ImGui::Text("%s", pin.name.c_str());
 			ImGui::SameLine();
-			ImGui::ColorButton("", color, ImGuiColorEditFlags_NoTooltip, {15, 15});
+			ImGui::ColorButton("", getPinColor(pin.value), ImGuiColorEditFlags_NoTooltip, {15, 15});
 			ImNodes::EndOutputAttribute();
-			oflag = true;
 		}
-		if (oflag == false) {
+		if (!node->outputPins.size()) {
 			ImGui::Indent();
 			if (node->inputPins[0].value == -1)
 				ImGui::Button("", {30, 30});
@@ -242,8 +231,6 @@ int NodeManager::render() {
 				ImGui::Button((std::to_string(node->inputPins[0].value)).c_str(), {30, 30});
 		}
 		ImNodes::EndNode();
-		iflag = false;
-		oflag = false;
 	}
 	for (auto const& [key, l] : this->links) {
 		ImNodes::Link(l->uniqueId, l->startPin, l->endPin);
@@ -264,10 +251,7 @@ int NodeManager::copyover() {
 
 int NodeManager::calculate() {
 	for (const auto& [id, node] : nodes) {
-		// if (node->name !=
-		// 	"Input") { // input ko calculation block bolauda vertex out of bound jaanxa tesaile, not quite sure why
 		node->calculate();
-		// }
 	}
 	return 0;
 }

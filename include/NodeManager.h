@@ -18,7 +18,8 @@ class NodeManager {
 	std::unordered_map<int, Link*> links;
 
   public:
-	int addNode(int& id, std::string name, NodeType type);
+	NodeType newNodeType;
+	int addNode(int& id, NodeType type);
 	int addLink(int& id, int startNode, int startPin, int endNode, int endPin);
 	int removeLink(int const);
 
